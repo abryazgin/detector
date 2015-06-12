@@ -1,0 +1,5 @@
+[PATHS]
+resDir = static/files/results
+photoDir = static/files/photos
+logoDir = static/files/logos
+serialDir = static/files/serial

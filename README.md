@@ -10,4 +10,13 @@
 - opencv (включая пакет non-free)
 - python-opencv
 - python
+-- --------------------------------------------------
+БД
+-- --------------------------------------------------
+CREATE USER detuser PASSWORD 'meta1propa3'; 
+ALTER USER detuser SUPERUSER;
 
+DROP DATABASE IF EXISTS deta;
+CREATE DATABASE deta;
+
+python manage.py migrate

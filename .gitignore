@@ -1,6 +1,7 @@
-res/*
-results/*
-logos/*
-src/*
 .project
 .pydevproject
+.settings/
+*.jpg
+*.png
+*.bak~
+*.pick

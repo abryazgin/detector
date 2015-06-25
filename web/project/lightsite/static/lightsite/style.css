@@ -1,0 +1,62 @@
+.app_header {
+    margin-bottom: 0;
+
+}
+
+.app_header li > a {
+    font-weight: 500;
+    color: #563d7c;
+}
+
+.app_header_brand {
+    font-weight: 500;
+    color: #563d7c;
+}
+
+.app_photo div {
+    display: inline-block;
+    margin: 2px 0px;
+}
+
+.app_photo img {
+    width: 100px;
+    height: 100px;
+}
+
+.app_hi {
+    padding-top: 60px;
+    padding-bottom: 0px;
+    margin-bottom: 40px;
+    font-size: 24px;
+    text-align: center;
+    position: relative;
+    color: #cdbfe3;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, .1);
+    background-color: #6f5499;
+    background-image: linear-gradient(to bottom, #563d7c 0, #6f5499 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#563d7c', endColorstr='#6F5499', GradientType=0);
+    background-repeat: repeat-x;
+}
+
+.app_photo_list {
+    background-color: #A8A8A8 ;
+    background-image: linear-gradient(to bottom, #D8D8D8  0, #A8A8A8 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#D8D8D8 ', endColorstr='#A8A8A8', GradientType=0);
+    background-repeat: repeat-x;
+}
+.app_btn_start {
+    color: #fff;
+    background-color: transparent;
+    border-color: #cdbfe3;
+}
+
+.app_btn_start:hover {
+    color: #563d7c;
+    text-shadow: none;
+    background-color: #fff;
+    border-color: #fff;
+}
+
+
+​
+​

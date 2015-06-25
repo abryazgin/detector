@@ -1,0 +1,22 @@
+http://habrahabr.ru/post/240463/
+
+sudo apt-get install python-dev (для Pillow)
+
+
+установить виртуальное окружение
+
+virtualenv ./venv/
+
+запустить виртуальное окружение
+
+source ./venv/bin/activate
+
+создание миграции базы
+
+python ./manage.py makemigrations
+
+применение миграции
+
+python ./manage.py migrate
+
+создание супер пользо

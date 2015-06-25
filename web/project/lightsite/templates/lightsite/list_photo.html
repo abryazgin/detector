@@ -1,0 +1,14 @@
+{% extends "lightsite/base.html" %}
+
+{% block content %}
+    <h1>Фоточкиии</h1>
+
+    <ul>
+        {% for ob in object_list %}
+            <li >{{ ob }}</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'main' %}">Вернуться к списку</a>
+
+{% endblock %}

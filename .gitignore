@@ -1,0 +1,9 @@
+*.pyc
+*.jpg
+*.JPG
+*.png
+*.PNG
+*.jpeg
+*.JPEG
+.idea/
+*~

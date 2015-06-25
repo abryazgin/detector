@@ -1,0 +1,45 @@
+{% extends "lightsite/base.html" %}
+
+{% block content %}
+
+    <div class="app_hi">
+
+        <div class="container">
+            <h1>Узнай, что там, не сходя с места!</h1>
+
+            <p>Просто сфотографируй логотип заведения/организации и узнай, что там находится.</p>
+
+            <a id="start_load" class="btn btn-lg app_btn_start">Начать</a>
+
+            <form id="myForm" action="{% url 'main' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input id="photo" name="photo" type="file" style="visibility:hidden">
+            </form>
+            <div class="progress" style="visibility:hidden">
+                <div class="progress-bar"aria-valuemin="0" aria-valuemax="100"
+                     style="width: 0%;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="app_photo_list">
+        <div class="container">
+            <div class="app_photo">
+                {% if form.latest_photo_list %}
+                    {% for photo in form.latest_photo_list %}
+                        {% if  photo.photo %}
+                            <div><img src="{{ MEDIA_URL }}{{ photo.photo }}"/>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+
+
+            </div>
+
+            <section id="load"></section>
+        </div>
+    </div>
+
+{% endblock %}

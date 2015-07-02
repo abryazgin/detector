@@ -1,3 +1,4 @@
+
 *.pyc
 *.jpg
 *.JPG
@@ -7,3 +8,10 @@
 *.JPEG
 .idea/
 *~
+
+.project
+.pydevproject
+.settings/
+*.bak~
+*.pick
+

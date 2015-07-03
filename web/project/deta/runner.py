@@ -24,7 +24,10 @@ def runAll (imgPath, N):
     
     :return [<Result>, ...]
     '''
+    print "RUNNER!"
     detector, matcher = init('sift', False)
+    print "PREPARER!"
+    print imgPath
     kp2, desc2 = prepare(imgPath, detector, Config.get('PHOTOS','w'), Config.get('PHOTOS','h'))
     logoObjects = getAllLogos()
     bestLogoObjectByCompany = None

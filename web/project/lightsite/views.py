@@ -59,6 +59,7 @@ class SearchView(TemplateView):
         return context
 
     def search(self, photoPath):
+        print 'TTTTT %s ' % photoPath
         return [{'imgPath' : get_media_path(result.logoImg)} for result in runner.runAll(photoPath, 2)]
         
         

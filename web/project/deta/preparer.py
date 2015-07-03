@@ -14,6 +14,9 @@ def prepare(imgPath, detector, w, h):
     :returns desc: описания особых точек изображения
     '''
     img = utils.read(imgPath)
+    print img
+    if img == None:
+        raise Exception("Can't open file '%s'" % imgPath)
     img = utils.resize(img, w, h)
     
     print 'PREPARE %s' % imgPath

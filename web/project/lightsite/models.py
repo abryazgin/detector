@@ -3,7 +3,7 @@ from django.db import models
 from jsonfield import JSONField
 
 # Create your models here.
-class UserPhoto(models.Model):
+class Photo(models.Model):
 
     date_create = models.DateTimeField(
         auto_now_add=True,

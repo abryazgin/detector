@@ -1,5 +1,5 @@
 from django.contrib import admin
-from lightsite import models
+import models
 # Register your models here.
 
 admin.site.register(models.Company)

@@ -1,20 +1,20 @@
 # -*- coding: utf-8 -*-
 from django import forms
-from models import UserPhoto
+from models import Photo
 
 
-class UserPhotoForm(forms.ModelForm):
+class PhotoForm(forms.ModelForm):
     label = u'Выберете фаааааайл'
 
     class Meta:
-        model = UserPhoto
+        model = Photo
         fields = ['photo']
 
-class UserPhotoUploadFormUpload(forms.ModelForm):
+class PhotoUploadFormUpload(forms.ModelForm):
     label = u'Выбеpрете фаайл'
-    latest_photo_list = UserPhoto.objects.order_by('-date_create')[:10]
+    latest_photo_list = Photo.objects.order_by('-date_create')[:10]
     print (latest_photo_list[0])
 
     class Meta:
-        model = UserPhoto
+        model = Photo
         fields = ['photo']

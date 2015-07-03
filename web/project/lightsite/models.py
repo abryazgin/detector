@@ -6,7 +6,7 @@ from detector.searcher import init
 from detector.configManager import Config
 
 # Create your models here.
-class UserPhoto(models.Model):
+class Photo(models.Model):
 
     date_create = models.DateTimeField(
         auto_now_add=True,

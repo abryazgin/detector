@@ -19,11 +19,10 @@ import views
 urlpatterns = [
     url(r'^$', views.MainView.as_view(),
         name='main'),
-    url(r'^new$', views.CreateUserPhotoView.as_view(),
+    url(r'^new$', views.CreatePhotoView.as_view(),
         name='userphoto-new', ),
-    url(r'^list$', views.ListUserPhotoView.as_view(),
+    url(r'^list$', views.ListPhotoView.as_view(),
         name='userphoto-list', ),
-    url(r'^search/(?P<pk>\d+)$', views.SearchView.as_view(),
+    url(r'^search((?:/(?P<photo_id>\d+))|(?:/))?$', views.SearchView.as_view(),
         name='search'),
-
 ]

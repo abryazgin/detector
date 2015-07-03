@@ -14,18 +14,27 @@ $(document).ready(function () {
             xhr: function () {
 
                 var xhr = new window.XMLHttpRequest();
+                var in_progress = false;
                 //Upload progress
                 xhr.upload.addEventListener("progress", function (e) {
                     if (e.lengthComputable) {
-                        $('.progress').css('visibility', 'visible');
                         var percentComplete = e.loaded / e.total;
-                        //Do something with upload progress
                         console.log('percent', percentComplete)
-                        $('.progress-bar').css('width', (percentComplete) * 100 + '%');
-                        if (percentComplete == 1){
-                            $('.progress').css('visibility', 'hidden');
-                            $('.progress-bar').css('width', '0%');
+                        if (percentComplete > 0 && percentComplete <= 1) {
+                            if (!in_progress) {
+                                in_progress = true;
+                                $('.progress').css('visibility', 'visible');
+                            }
+                            $('.progress-bar').css('width', (percentComplete) * 100 + '%');
+                            if (percentComplete == 1) {
+                                in_progress = false
+                                $('.progress').css('visibility', 'hidden');
+                                $('.progress-bar').css('width', '0%');
+                            }
+
                         }
+
+
                     }
                 }, false);
                 return xhr;
@@ -49,7 +58,7 @@ $(document).ready(function () {
             },
         });
     });
-    $('#photo').on('change',function (e) {
+    $('#photo').on('change', function (e) {
         console.log('CHANGE')
         $('#myForm').submit();
     });
@@ -57,7 +66,6 @@ $(document).ready(function () {
         console.log('CLICK')
         $('#photo').click()
     });
-
 
 
 });

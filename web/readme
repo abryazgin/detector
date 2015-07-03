@@ -19,4 +19,6 @@ python ./manage.py makemigrations
 
 python ./manage.py migrate
 
-создание супер пользо
+создание супер пользотеля
+
+python ./manage.py createsuperuser

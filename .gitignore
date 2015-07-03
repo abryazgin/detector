@@ -8,10 +8,11 @@
 *.JPEG
 .idea/
 *~
+!/web/project/lightsite/static/lightsite/images/*
 
 .project
 .pydevproject
 .settings/
 *.bak~
 *.pick
-#venv/
+venv/

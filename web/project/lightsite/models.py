@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from jsonfield import JSONField
-from detector.preparer import prepare
-from detector.searcher import init
-from detector.configManager import Config
+from deta.preparer import prepare
+from deta.searcher import init
+from deta.configManager import Config
 
 # Create your models here.
 class Photo(models.Model):

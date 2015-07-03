@@ -111,6 +111,7 @@ class CompanyLogo(models.Model):
         ])
     
     def save(self, *args, **kwargs):
+
         detector, matcher = init()
         kp, desc = prepare(self.photo.path, detector, int(Config.get('LOGOS','w')), int(Config.get('LOGOS','h')))
         uid = uuid.uuid4()

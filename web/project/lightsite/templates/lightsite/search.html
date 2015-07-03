@@ -2,8 +2,10 @@
 {% load staticfiles %}
 {% block content %}
 
-
+<div class="app_photo_s" style="visibility:hidden;>
+    </div>
     <div class="app_photo_list">
+
         <div class="container">
 
             <div class="form-horizontal">
@@ -12,7 +14,7 @@
                         <h2> Ищем картинку:</h2>
                         {% if photo %}
                             <div><img id="current_photo" src="{{ MEDIA_URL }}{{ photo }}" style="width: 300px"/>
-                                </div>
+                            </div>
                         {% else %}
                             картинка пока не загружена
                         {% endif %}
@@ -39,7 +41,8 @@
 
                         </div>
 
-                        <form id="myFormResults" action="{% url 'search' %}" method="POST" enctype="multipart/form-data">
+                        <form id="myFormResults" action="{% url 'search' %}" method="POST"
+                              enctype="multipart/form-data">
                             {% csrf_token %}
                             <input id="photo" name="photo" value="{{ photo }}" style="visibility:hidden">
                         </form>

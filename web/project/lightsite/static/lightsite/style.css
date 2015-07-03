@@ -48,7 +48,7 @@
 .app_photo_result {
     background-color: #66CC00 ;
     background-image: linear-gradient(to bottom, #E4FFC9  0, #66CC00 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#E4FFC9 ', endColorstr='#66CC00', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#E4FFC9. ', endColorstr='#66CC00', GradientType=0);
     background-repeat: repeat-x;
 }
 .app_btn_start {
@@ -68,5 +68,14 @@
     position: absolute;
     z-index: 100;
 }
-​
+
+.app_photo_s {
+    width: 150px;
+    height: 150px;
+    position: absolute;
+    z-index: 1000;
+    left: 45%;
+    background:  url("images/5.GIF")
+}
+
 ​

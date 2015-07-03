@@ -1,9 +1,12 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from jsonfield import JSONField
 from deta.preparer import prepare
 from deta.searcher import init
 from deta.configManager import Config
+from deta.serializer import serialize
+from django.conf import settings
+import uuid
+import os
 
 # Create your models here.
 class Photo(models.Model):
@@ -97,7 +100,8 @@ class CompanyLogo(models.Model):
         auto_now_add=True,
     )
     
-    serial_object = models.TextField()
+    serial_kp_file = models.FileField (blank=True, null=True)
+    serial_desc_file = models.FileField (blank=True, null=True)
 
     def __unicode__(self):
         return ' '.join([
@@ -106,8 +110,12 @@ class CompanyLogo(models.Model):
             self.photo.url,
         ])
     
-    def save_model(self, request, Gallery, form, change):
+    def save(self, *args, **kwargs):
         detector, matcher = init()
-        serial = prepare(self.filename, detector, Config.get('LOGOS','w'), Config.get('LOGOS','h'))
-        self.serial_object = serial
-        self.save()
+        kp, desc = prepare(self.photo.path, detector, int(Config.get('LOGOS','w')), int(Config.get('LOGOS','h')))
+        uid = uuid.uuid4()
+        kp_filepath = os.path.join(settings.MEDIA_ROOT,settings.SERIAL_DIRNAME,'kp_{}.pick'.format(uid))
+        desc_filepath = os.path.join(settings.MEDIA_ROOT,settings.SERIAL_DIRNAME,'desc_{}.pick'.format(uid))
+        self.serial_kp_file = serialize(kp,kp_filepath)
+        self.serial_desc_file = serialize(desc,desc_filepath)
+        super(CompanyLogo, self).save(*args, **kwargs)

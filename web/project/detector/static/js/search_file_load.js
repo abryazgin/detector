@@ -22,7 +22,12 @@ $(document).ready(function () {
     $('#myFormResults').submit(function (e) {
         e.preventDefault();
         var data = new FormData($('#myFormLoad').get(0));
-
+        $('#app_photo_s').css('visibility', 'visible');
+        var myNode = document.getElementById("results");
+        while (myNode.firstChild) {
+            myNode.removeChild(myNode.firstChild);
+        }
+        console.log($('app_photo_s'))
         data.append("url", url)
         $.ajax({
             cache: true,
@@ -38,22 +43,23 @@ $(document).ready(function () {
             url: $('#myFormResults').attr('action'),
 
             success: function (response) {
+                $('#app_photo_s').css('visibility', 'hidden');
                 if (response['result'] == 'success') {
                     console.log('SUCCESS', response)
                     var myNode = document.getElementById("results");
                     while (myNode.firstChild) {
                         myNode.removeChild(myNode.firstChild);
                     }
-                    for(var p in response['response']){
-                    	var path = response['response'][p]['imgPath']
-                    	var newdiv = document.createElement('div');
-                    	var elem = document.createElement("img");
-                    	elem.setAttribute("src", path);
-                    	newdiv.appendChild(elem);
-                    	
-                    	myNode.appendChild(newdiv);
+                    for (var p in response['response']) {
+                        var path = response['response'][p]['imgPath']
+                        var newdiv = document.createElement('div');
+                        var elem = document.createElement("img");
+                        elem.setAttribute("src", path);
+                        newdiv.appendChild(elem);
+
+                        myNode.appendChild(newdiv);
                     }
-                    
+
 
                 }
                 else if (response['result'] == 'error') {
@@ -62,6 +68,7 @@ $(document).ready(function () {
                 }
             },
             error: function (response) {
+                $('#app_photo_s').css('visibility', 'hidden');
                 // Displays the error message.
                 console.log('error', response.responseText)
                 bootstrap_alert("Ошибка при загрузке")

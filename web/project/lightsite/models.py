@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 from django.db import models
 from jsonfield import JSONField
+from detector.preparer import prepare
+from detector.searcher import init
+from detector.configManager import Config
 
 # Create your models here.
 class UserPhoto(models.Model):
@@ -14,7 +17,6 @@ class UserPhoto(models.Model):
     )
 
     def __unicode__(self):
-
         return ' '.join([
             self.photo.name,
         ])
@@ -34,7 +36,6 @@ class User(models.Model):
     )
 
     def __unicode__(self):
-
         return self.login
 
 class Company(models.Model):
@@ -48,7 +49,6 @@ class Company(models.Model):
     )
 
     def __unicode__(self):
-
         return self.name
 
 class Staff(models.Model):
@@ -81,7 +81,6 @@ class CompanyInvite(models.Model):
     )
 
     def __unicode__(self):
-
         return self.company.name
 
 class CompanyLogo(models.Model):
@@ -91,33 +90,24 @@ class CompanyLogo(models.Model):
     creator = models.ForeignKey(User)
 
     photo = models.ImageField(
-        upload_to='logo'
+        upload_to='logos'
     )
 
     date_create = models.DateTimeField(
         auto_now_add=True,
     )
+    
+    serial_object = models.TextField()
 
     def __unicode__(self):
-
-         return ' '.join([
+        return ' '.join([
             self.company.name,
             '-',
             self.photo.url,
         ])
-class LogoObject(models.Model):
-
-    logo = models.ForeignKey(CompanyLogo)
-
-    object = models.TextField()
-
-    date_create = models.DateTimeField(
-        auto_now_add=True,
-    )
-
-    def __unicode__(self):
-        return ' '.join([
-            self.logo.company.name,
-            '-',
-            self.logo.photo.url,
-        ])
+    
+    def save_model(self, request, Gallery, form, change):
+        detector, matcher = init()
+        serial = prepare(self.filename, detector, Config.get('LOGOS','w'), Config.get('LOGOS','h'))
+        self.serial_object = serial
+        self.save()

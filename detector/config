@@ -1,5 +1,11 @@
 [PATHS]
-resDir = static/files/results
-photoDir = static/files/photos
-logoDir = static/files/logos
-serialDir = static/files/serial
+resDir = ../web/project/media/results
+photoDir = ../web/project/media/photos
+logoDir = ../web/project/media/logos
+serialDir = ../web/project/media/serial
+[LOGOS]
+w = 640
+h = 480
+[PHOTOS]
+w = 800
+h = 600

@@ -88,7 +88,7 @@ $(document).ready(function () {
             },
             error: function (response) {
                 // Displays the error message.
-                console.log('error', response)
+                console.log('error', response.responseText)
                 bootstrap_alert("Ошибка при загрузке")
             },
         });

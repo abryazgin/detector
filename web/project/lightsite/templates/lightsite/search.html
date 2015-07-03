@@ -11,10 +11,8 @@
                     <div class="col-md-6">
                         <h2> Ищем картинку:</h2>
                         {% if photo %}
-                            {% if  photo.photo %}
-                                <div><img src="{{ MEDIA_URL }}{{ photo.photo }}" style="width: 300px"/>
+                            <div><img id="current_photo" src="{{ MEDIA_URL }}{{ photo }}" style="width: 300px"/>
                                 </div>
-                            {% endif %}
                         {% else %}
                             картинка пока не загружена
                         {% endif %}
@@ -36,6 +34,15 @@
                 <div class="form-group">
                     <div class="col-md-6">
                         <h2> Результаты:</h2>
+
+                        <div id="results">
+
+                        </div>
+
+                        <form id="myFormResults" action="{% url 'search' %}" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <input id="photo" name="photo" value="{{ photo }}" style="visibility:hidden">
+                        </form>
                     </div>
                 </div>
             </div>
@@ -44,7 +51,7 @@
         </div>
     </div>
 
-<script type="text/javascript" src="{% static "js/search_file_load.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/search_file_load.js" %}"></script>
 {% endblock %}
 
 

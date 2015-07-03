@@ -18,12 +18,59 @@ $(document).ready(function () {
 
         }, 5000);
     }
+    var url = ""
+    $('#myFormResults').submit(function (e) {
+        e.preventDefault();
+        var data = new FormData($('#myFormLoad').get(0));
+
+        data.append("url", url)
+        $.ajax({
+            cache: true,
+            dataType: 'json',
+            processData: false,
+            contentType: false,
+            // get the form data
+            data: data,
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            // GET or POST
+            type: $('#myFormResults').attr('method'),
+            // the file to call
+            url: $('#myFormResults').attr('action'),
+
+            success: function (response) {
+                if (response['result'] == 'success') {
+                    console.log('SUCCESS', response)
+
+
+                }
+                else if (response['result'] == 'error') {
+                    console.log('OK error', response);
+                    bootstrap_alert(response['response'])
+                }
+            },
+            error: function (response) {
+                // Displays the error message.
+                console.log('error', response.responseText)
+                bootstrap_alert("Ошибка при загрузке")
+            },
+        });
+    })
+
+    var get_results = function (url1) {
+        url = url1;
+        console.log(url1)
+        $('#myFormResults').submit()
+    }
+
+    if ($('#current_photo').length > 0) {
+        get_results($('#current_photo').attr('src'))
+    }
 
     $('#myFormLoad').submit(function (e) {
         e.preventDefault();
         // create an AJAX call…
-        var data = new FormData($('#myForm').get(0));
-        console.log('AJAX!!!', $('#myForm').attr('method'), $('#myForm').attr('action'), data)
+        var data = new FormData($('#myFormLoad').get(0));
+        console.log('AJAX!!!', $('#myFormLoad').attr('method'), $('#myFormLoad').attr('action'), data)
 
         $.ajax({
             cache: true,
@@ -67,18 +114,17 @@ $(document).ready(function () {
             data: data,
             csrfmiddlewaretoken: '{{ csrf_token }}',
             // GET or POST
-            type: $('#myForm').attr('method'),
+            type: $('#myFormLoad').attr('method'),
             // the file to call
-            url: $('#myForm').attr('action'),
+            url: $('#myFormLoad').attr('action'),
             // on success..
-            success: function (response) {
-                // Displays the success message.
-                console.log('success', response)
 
-            },
-            success: function(response) {
+            success: function (response) {
                 if (response['result'] == 'success') {
                     console.log('SUCCESS', response)
+                    $('#current_photo').attr('src', response["url"])
+
+                    get_results(response['url'])
                 }
                 else if (response['result'] == 'error') {
                     console.log('OK error', response);
@@ -87,19 +133,18 @@ $(document).ready(function () {
             },
             error: function (response) {
                 // Displays the error message.
-                console.log('error', response)
+                console.log('error', response.responseText)
                 bootstrap_alert("Ошибка при загрузке")
             },
         });
     });
     $('#photo').on('change', function (e) {
         console.log('CHANGE')
-        $('#myForm').submit();
+        $('#myFormLoad').submit();
     });
     $('#start_load').on('click', function (e) {
         console.log('CLICK')
         $('#photo').click()
     });
-
 
 });

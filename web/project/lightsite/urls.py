@@ -27,4 +27,6 @@ urlpatterns = [
     #     name='search'),
     url(r'^search((?:/(?P<photo_id>\d+))|(?:/))?$', views.SearchView.as_view(),
         name='search'),
+    # url(r'^load$', views.load,
+    #     name='load'),
 ]

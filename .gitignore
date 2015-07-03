@@ -10,6 +10,7 @@
 *~
 !/web/project/lightsite/static/lightsite/images/*
 
+*.db
 .project
 .pydevproject
 .settings/

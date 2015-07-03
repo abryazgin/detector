@@ -40,7 +40,20 @@ $(document).ready(function () {
             success: function (response) {
                 if (response['result'] == 'success') {
                     console.log('SUCCESS', response)
-
+                    var myNode = document.getElementById("results");
+                    while (myNode.firstChild) {
+                        myNode.removeChild(myNode.firstChild);
+                    }
+                    for(var p in response['response']){
+                    	var path = response['response'][p]['imgPath']
+                    	var newdiv = document.createElement('div');
+                    	var elem = document.createElement("img");
+                    	elem.setAttribute("src", path);
+                    	newdiv.appendChild(elem);
+                    	
+                    	myNode.appendChild(newdiv);
+                    }
+                    
 
                 }
                 else if (response['result'] == 'error') {

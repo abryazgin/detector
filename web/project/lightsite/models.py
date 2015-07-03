@@ -16,7 +16,7 @@ class Photo(models.Model):
     )
 
     photo = models.ImageField(
-        upload_to='photos'
+        upload_to=settings.PHOTO_DIRNAME
     )
 
     def __unicode__(self):
@@ -93,7 +93,7 @@ class CompanyLogo(models.Model):
     creator = models.ForeignKey(User)
 
     photo = models.ImageField(
-        upload_to='logos'
+        upload_to=settings.LOGO_DIRNAME
     )
 
     date_create = models.DateTimeField(
@@ -111,9 +111,10 @@ class CompanyLogo(models.Model):
         ])
     
     def save(self, *args, **kwargs):
-
+        super(CompanyLogo, self).save(*args, **kwargs)
         detector, matcher = init()
-        kp, desc = prepare(self.photo.path, detector, int(Config.get('LOGOS','w')), int(Config.get('LOGOS','h')))
+        
+        kp, desc = prepare(os.path.join(settings.MEDIA_ROOT,self.photo.name), detector, int(Config.get('LOGOS','w')), int(Config.get('LOGOS','h')))
         uid = uuid.uuid4()
         kp_filepath = os.path.join(settings.MEDIA_ROOT,settings.SERIAL_DIRNAME,'kp_{}.pick'.format(uid))
         desc_filepath = os.path.join(settings.MEDIA_ROOT,settings.SERIAL_DIRNAME,'desc_{}.pick'.format(uid))

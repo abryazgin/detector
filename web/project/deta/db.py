@@ -20,4 +20,4 @@ def getAllLogos ():
              'logoId'      : logo.id,
              'photoPath'   : logo.photo.path,
              'kpFilePath'  : logo.serial_kp_file.path,
-             'descFilePath': logo.serial_desc_file.path} for logo in models.CompanyLogo.objects.all().order_by('company')]
+             'descFilePath': logo.serial_desc_file.path} for logo in models.CompanyLogo.objects.all().order_by('company') if logo.serial_kp_file and logo.serial_desc_file]

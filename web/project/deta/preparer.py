@@ -15,6 +15,9 @@ def prepare(imgPath, detector, w, h):
     '''
     img = utils.read(imgPath)
     img = utils.resize(img, w, h)
+    
+    print 'PREPARE %s' % imgPath
+    
     if not detector:
         raise Exception("Detector can't be None")
     kp, desc = detector.detectAndCompute(img, None)

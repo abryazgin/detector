@@ -129,6 +129,9 @@ STATICFILES_DIRS = (
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 SERIAL_DIRNAME = 'serial'
+LOGO_DIRNAME = 'logos'
+PHOTO_DIRNAME = 'photos'
+
 
 print ('STATIC_ROOT', STATIC_ROOT)
 print ('STATICFILES_DIRS', STATICFILES_DIRS)

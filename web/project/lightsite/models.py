@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from django.db import models
-from jsonfield import JSONField
 from detector.preparer import prepare
 from detector.searcher import init
 from detector.configManager import Config

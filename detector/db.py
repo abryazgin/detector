@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from web.lightsite import models
 '''
 Модуль, отвечающий за получение данных из БД
 '''
@@ -14,4 +14,4 @@ def getAllLogos ():
               
               !!! ДОЛЖЕН БЫТЬ ОТСОРТИРОВАН ПО  companyId !!!
     '''
-    pass
+    return models.CompanyLogo.objects.order_by('company')

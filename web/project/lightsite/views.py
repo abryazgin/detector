@@ -19,19 +19,17 @@ class MainView(CreateView):
     template_name = 'lightsite/main.html'
     form_class = PhotoUploadFormUpload
 
-    def get_success_url(self):
-        return reverse('search')
 
     def post(self, request, *args, **kwargs):
 
         if request.is_ajax():
+            print("%s?name=joe" % reverse("search"))
             form = PhotoUploadFormUpload(request.POST, request.FILES)
             print ("POST", request.FILES, form.is_valid())
             if form.is_valid():
                 new_photo = form.save()
-                print(new_photo.pk)
                 return HttpResponse(
-                    json.dumps({'response': self.get_success_url(),
+                    json.dumps({'response': reverse('search', args=(new_photo.pk,)),
                                 'result': 'success'}))
                 # return HttpResponseRedirect(self.get_success_url())
             else:
@@ -46,7 +44,7 @@ class SearchView(TemplateView):
 
      def get_context_data(self, **kwargs):
         context = super(SearchView, self).get_context_data(**kwargs)
-        photo_id = self.request.GET.get('photo_id', None)
+        photo_id = self.kwargs.get('photo_id', None)
         print('photo_id', photo_id)
         if (photo_id):
             try:

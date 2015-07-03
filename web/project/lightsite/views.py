@@ -16,6 +16,8 @@ import json, urllib, os
 from deta import runner
 from django.conf import settings
 
+def get_media_path(abspath):
+    return abspath.replace(settings.BASE_DIR,'', 1)
 
 class MainView(CreateView):
     template_name = 'lightsite/main.html'
@@ -57,13 +59,18 @@ class SearchView(TemplateView):
         return context
 
     def search(self, photoPath):
-        return runner.runAll(photoPath, 2)
+        return [{'imgPath' : get_media_path(result.logoImg)} for result in runner.runAll(photoPath, 2)]
+        
+        
+        
 
     def post(self, request, *args, **kwargs):
 
         if request.is_ajax():
-            print ("POST", request.POST['url'])
-            res = self.search(os.path.join(settings.BASE_DIR,request.POST['url']))
+            path = ''.join((settings.BASE_DIR,request.POST['url']))
+            print path
+            print settings.BASE_DIR
+            res = self.search(path)
             print(res)
             return HttpResponse(
                     json.dumps({'response': res,

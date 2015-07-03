@@ -34,7 +34,7 @@ def runAll (imgPath, N):
                 if logoObject['runk'] > bestLogoObjectByCompany['runk']:
                     bestLogoObjectByCompany = logoObject
             else:
-                bestLogoObjects.append(bestLogoObjectByCompany)
+                addResult(bestLogoObjects, bestLogoObjectByCompany, N)
                 bestLogoObjectByCompany = logoObject
         else:
             bestLogoObjectByCompany = logoObject
@@ -55,22 +55,23 @@ def addResult(logoObjects, logoObject, N):
     '''
     Добавление в массив результатов. В массиве результатов всегда должно быть не более N элементов
     
-    :param inliers
-    :param matched
+    :param logoObjects: список результатов
+    :param logoObject: претендент на добавление в список результатов
+    :param N: количество результатов в списке результатов
     
-    :result runk
+    :result <integer>: текущая позиция
     '''
-  TODOOOOOOOOOOOOOOOOOO!!!!!
     if not N or N <= 0:
         raise Exception("runner.addResult: invalid N!")
-    if len(logoObjects) == 0:
-        logoObjects[1] = logoObject
-    else:
-        done = 0
-        for i in range(1,len(logoObjects)):
-            if logoObjects[i]['runk'] <= logoObjects[i]['runk']:
-                logoObjects[i]
-            else
+    count = len(logoObjects)
+    for i in range(N):
+        if count == i:
+            logoObjects[i:i+1] = [logoObject]
+            return i
+        if logoObjects[i]['runk'] < logoObject['runk']:
+            lo = logoObjects[i]
+            logoObjects[i] = logoObject
+            logoObject = lo
             
 def getRunk(inliers, matched):
     '''

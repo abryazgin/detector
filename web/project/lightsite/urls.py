@@ -23,6 +23,8 @@ urlpatterns = [
         name='userphoto-new', ),
     url(r'^list$', views.ListPhotoView.as_view(),
         name='userphoto-list', ),
+    # url(r'^search$', views.SearchView.as_view(),
+    #     name='search'),
     url(r'^search((?:/(?P<photo_id>\d+))|(?:/))?$', views.SearchView.as_view(),
         name='search'),
 ]

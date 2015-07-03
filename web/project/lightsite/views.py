@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect
+# -*- coding: utf-8 -*-
+from django.shortcuts import render, redirect, render_to_response
 from django.core.urlresolvers import reverse
 from django.views.generic import FormView
 from django.views.generic import CreateView
@@ -9,7 +10,8 @@ from .forms import PhotoForm, PhotoUploadFormUpload
 from UploadProgressCachedHandler import UploadProgressCachedHandler
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.core.cache import cache
-from django.http import HttpResponse, HttpResponseServerError
+from django.http import HttpResponse, HttpResponseServerError, HttpResponseRedirect
+from django.template import RequestContext
 import json
 
 
@@ -17,16 +19,25 @@ class MainView(CreateView):
     template_name = 'lightsite/main.html'
     form_class = PhotoUploadFormUpload
 
+    def get_success_url(self):
+        return reverse('search')
+
     def post(self, request, *args, **kwargs):
 
         if request.is_ajax():
             form = PhotoUploadFormUpload(request.POST, request.FILES)
             print ("POST", request.FILES, form.is_valid())
             if form.is_valid():
-                form.save()
-                return HttpResponse("form saved")
+                new_photo = form.save()
+                print(new_photo.pk)
+                return HttpResponse(
+                    json.dumps({'response': self.get_success_url(),
+                                'result': 'success'}))
+                # return HttpResponseRedirect(self.get_success_url())
             else:
-                return HttpResponse("form invalid")
+                return HttpResponse(
+                    json.dumps({'response': u"Скорее всего Вы выбрали файл с неподходящим форматом.",
+                                'result': 'error'}))
 
         return HttpResponse("not a ajax request")
 
@@ -35,7 +46,7 @@ class SearchView(TemplateView):
 
      def get_context_data(self, **kwargs):
         context = super(SearchView, self).get_context_data(**kwargs)
-        photo_id = self.kwargs.get('photo_id', None)
+        photo_id = self.request.GET.get('photo_id', None)
         print('photo_id', photo_id)
         if (photo_id):
             try:

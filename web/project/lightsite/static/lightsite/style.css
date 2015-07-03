@@ -44,6 +44,13 @@
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#D8D8D8 ', endColorstr='#A8A8A8', GradientType=0);
     background-repeat: repeat-x;
 }
+
+.app_photo_result {
+    background-color: #66CC00 ;
+    background-image: linear-gradient(to bottom, #E4FFC9  0, #66CC00 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#E4FFC9 ', endColorstr='#66CC00', GradientType=0);
+    background-repeat: repeat-x;
+}
 .app_btn_start {
     color: #fff;
     background-color: transparent;
@@ -57,6 +64,9 @@
     border-color: #fff;
 }
 
-
+.app_alert {
+    position: absolute;
+    z-index: 100;
+}
 ​
 ​

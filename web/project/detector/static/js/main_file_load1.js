@@ -1,5 +1,24 @@
 $(document).ready(function () {
     // catch the submit event of the form.
+    var bootstrap_alert = function (message) {
+        if ($('#alertdiv').length > 0) {
+            $('#alertdiv').alert('close')
+        }
+
+        $('#alert_placeholder').html('<div id="alertdiv" class="alert alert-danger alert-dismissible">' +
+            '<a class="close" data-dismiss="alert">×</a>' +
+            '<span>' + message + '</span>' +
+            '</div>')
+
+        setTimeout(function () {
+            //this will automatically close the alert and remove this if the users doesnt close it in 5 secs
+            if ($('#alertdiv').length > 0) {
+                $('#alertdiv').alert('close')
+            }
+
+        }, 5000);
+    }
+
     $('#myForm').submit(function (e) {
         e.preventDefault();
         // create an AJAX call…
@@ -23,13 +42,17 @@ $(document).ready(function () {
                         if (percentComplete > 0 && percentComplete <= 1) {
                             if (!in_progress) {
                                 in_progress = true;
-                                $('.progress').css('visibility', 'visible');
+                                $('#spinner_load').css('visibility', 'visible');
                             }
-                            $('.progress-bar').css('width', (percentComplete) * 100 + '%');
                             if (percentComplete == 1) {
                                 in_progress = false
-                                $('.progress').css('visibility', 'hidden');
-                                $('.progress-bar').css('width', '0%');
+                                $('#spinner_load').css('visibility', 'hidden');
+                                //setTimeout(
+                                //    function () {
+                                //        $('#spinner_load').css('visibility', 'hidden');
+                                //    }, 1000)
+
+
                             }
 
                         }
@@ -51,10 +74,22 @@ $(document).ready(function () {
             success: function (response) {
                 // Displays the success message.
                 console.log('success', response)
+
+            },
+            success: function(response) {
+                if (response['result'] == 'success') {
+                    window.location.href = response['response']
+                    console.log('SUCCESS', response)
+                }
+                else if (response['result'] == 'error') {
+                    console.log('OK error', response);
+                    bootstrap_alert(response['response'])
+                }
             },
             error: function (response) {
                 // Displays the error message.
                 console.log('error', response)
+                bootstrap_alert("Ошибка при загрузке")
             },
         });
     });

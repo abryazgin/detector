@@ -22,3 +22,7 @@ python ./manage.py migrate
 создание супер пользотеля
 
 python ./manage.py createsuperuser
+
+копирование глобального opencv
+
+cp /usr/local/lib/python2.7/dist-packages/cv* $VIRTUAL_ENV/lib/python2.7/site-packages/

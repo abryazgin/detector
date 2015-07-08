@@ -43,7 +43,7 @@ $(document).ready(function () {
             url: $('#myFormResults').attr('action'),
 
             success: function (response) {
-                $('#app_photo_s').css('visibility', 'hidden');
+                //$('#app_photo_s').css('visibility', 'hidden');
                 if (response['result'] == 'success') {
                     console.log('SUCCESS', response)
                     var myNode = document.getElementById("results");

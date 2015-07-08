@@ -1,0 +1,13 @@
+{% load staticfiles %}
+<div class="app_photo">
+    {% if latest_photo_list %}
+        {% for photo in latest_photo_list %}
+            {% if  photo.photo %}
+                <div><img src="{{ MEDIA_URL }}{{ photo.photo }}"/>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+
+
+</div>

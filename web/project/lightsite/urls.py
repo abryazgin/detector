@@ -17,16 +17,21 @@ from django.conf.urls import include, url
 import views
 
 urlpatterns = [
-    url(r'^$', views.MainView.as_view(),
-        name='main'),
+    url(r'^$', views.MainView.as_view(), name='main'),
+    url(r'^get_prev_photo$', 'lightsite.views.get_prev_photo_from_ajax', name="get_prev_photo"),
+    url(r'^search_logo$', 'lightsite.views.search_logo_from_ajax', name="search_logo"),
+    url(r'^check_image$', 'lightsite.views.check_image_from_ajax', name="check_image"),
+    # url(r'^search$', views.SearchView.as_view(), name='search'),
+    # url(r'^search$', 'lightsite.views.init_search', name='search'),
+
     url(r'^new$', views.CreatePhotoView.as_view(),
         name='userphoto-new', ),
     url(r'^list$', views.ListPhotoView.as_view(),
         name='userphoto-list', ),
-    # url(r'^search$', views.SearchView.as_view(),
+    url(r'^search(?P<photo_pk>\d+)$', views.SearchView.as_view(), name='search-done'),
+    url(r'^search$', views.SearchView.as_view(), name='search'),
+    # url(r'^search((?:/(?P<photo_id>\d+))|(?:/))?$', 'lightsite.views.init_search',
     #     name='search'),
-    url(r'^search((?:/(?P<photo_id>\d+))|(?:/))?$', views.SearchView.as_view(),
-        name='search'),
     # url(r'^load$', views.load,
     #     name='load'),
 ]

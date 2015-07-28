@@ -115,6 +115,8 @@ class LogoStatistic(models.Model):
     
     position = models.IntegerField()
     
+    go_to_company = models.BooleanField(default=False)
+    
     date_create = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
@@ -124,6 +126,8 @@ class LogoStatistic(models.Model):
             self.logo.photo.url,
             '-POS:',
             str(self.position),
+            '-GO_TO_COMPANY:',
+            str(self.go_to_company),
             '-DATE:',
             str(self.date_create)
         ])

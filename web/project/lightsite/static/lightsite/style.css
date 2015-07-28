@@ -1,3 +1,7 @@
+body {
+    background-color: #eeeeee;
+}
+
 .app_header {
     margin-bottom: 0;
 
@@ -38,6 +42,19 @@
     background-repeat: repeat-x;
 }
 
+.app_login {
+    padding: 60px;
+    margin-bottom: 40px;
+    font-size: 24px;
+    position: relative;
+    color: #cdbfe3;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, .1);
+    background-color: #6f5499;
+    background-image: linear-gradient(to bottom, #563d7c 0, #6f5499 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#563d7c', endColorstr='#6F5499', GradientType=0);
+    background-repeat: repeat-x;
+}
+
 .app_photo_list {
     background-color: #A8A8A8 ;
     background-image: linear-gradient(to bottom, #D8D8D8  0, #A8A8A8 100%);
@@ -46,11 +63,27 @@
 }
 
 .app_photo_result {
-    background-color: #66CC00 ;
-    background-image: linear-gradient(to bottom, #E4FFC9  0, #66CC00 100%);
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#E4FFC9. ', endColorstr='#66CC00', GradientType=0);
+    min-height: 277px;
+    font-size: 24px;
+    position: relative;
+    color: #cdbfe3;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, .1);
+    background-color: #6f5499;
+    background-image: linear-gradient(to bottom, #563d7c 0, #6f5499 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#563d7c', endColorstr='#6F5499', GradientType=0);
     background-repeat: repeat-x;
 }
+
+.app_img_res {
+    width: 300px;
+}
+
+.app_div_res {
+    border: 4px solid #4cae4c;
+    background: #4cae4c;
+    width: 308px;
+}
+
 .app_btn_start {
     color: #fff;
     background-color: transparent;
@@ -70,12 +103,12 @@
 }
 
 .app_photo_s {
-    width: 150px;
-    height: 150px;
+    width: 100px;
+    height: 100px;
     position: absolute;
     z-index: 1000;
     left: 45%;
-    background:  url("images/5.GIF")
+    background:  url("images/black_big.GIF")
 }
 
 ​

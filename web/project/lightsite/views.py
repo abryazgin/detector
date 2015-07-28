@@ -5,8 +5,8 @@ from django.views.generic import FormView
 from django.views.generic import CreateView
 from django.views.generic import ListView, DetailView, TemplateView
 
-from .models import Photo
-from .forms import PhotoForm, PhotoUploadFormUpload
+from .models import Company, Photo, Staff
+from .forms import PhotoForm
 from UploadProgressCachedHandler import UploadProgressCachedHandler
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.core.cache import cache
@@ -15,33 +15,55 @@ from django.template import RequestContext
 import json, urllib, os
 from deta import runner
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+
+class LoggedInMixin(object):
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(LoggedInMixin, self).dispatch(*args, **kwargs)
+
+
+class MainView(TemplateView):
+    template_name = 'lightsite/main.html'
+
+
+def check_image_from_ajax(request):
+    form = PhotoForm(request.POST, request.FILES)
+    print ("check_image_from_ajax", request.FILES, form.is_valid())
+    if form.is_valid():
+        return HttpResponse(
+            json.dumps({
+                'result': 'success'}))
+    else:
+        return HttpResponse(
+            json.dumps({'data': u"Скорее всего Вы выбрали файл с неподходящим форматом.",
+                        'result': 'error'}))
 
 def get_media_path(abspath):
-    return abspath.replace(settings.BASE_DIR,'', 1)
+    return abspath.replace(settings.BASE_DIR, '', 1)
 
-class MainView(CreateView):
-    template_name = 'lightsite/main.html'
-    form_class = PhotoUploadFormUpload
+def search_logo_from_ajax(request):
+    logo = [{'imgPath': get_media_path(result.logoImg)} for result in
+            runner.runAll(request.FILES['photo'], None, 2)]
+    print ('logo', logo)
+    context = {
+        "logo": logo,
+    };
 
-    def post(self, request, *args, **kwargs):
+    return render_to_response("lightsite/finded_logo_snippet.html",
+                          context)
 
-        if request.is_ajax():
-            form = PhotoUploadFormUpload(request.POST, request.FILES)
-            print ("POST", request.FILES, form.is_valid())
-            if form.is_valid():
-                new_photo = form.save()
-                return HttpResponse(
-                    json.dumps({'response': reverse('search') + '/' + str(new_photo.pk),
-                                'url': new_photo.photo.url,
-                                'result': 'success'}))
-                # return HttpResponseRedirect(self.get_success_url())
-            else:
-                return HttpResponse(
-                    json.dumps({'response': u"Скорее всего Вы выбрали файл с неподходящим форматом.",
-                                'result': 'error'}))
 
-        return HttpResponse(json.dumps({'response': u"Не ajax.",
-                                'result': 'error'}))
+def get_prev_photo_from_ajax(request):
+    latest_photo_list = Photo.objects.order_by('-date_create')[:20]
+    context = {
+        "latest_photo_list": latest_photo_list,
+        "MEDIA_URL": settings.MEDIA_URL,
+    }
+    return render_to_response("lightsite/prev_photo_snippet.html",
+                              context)
 
 
 class SearchView(TemplateView):
@@ -49,41 +71,39 @@ class SearchView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super(SearchView, self).get_context_data(**kwargs)
-        photo_id = self.kwargs.get('photo_id', None)
+        print('search', self.request.POST, self.kwargs)
+        photo_id = self.kwargs.get('pk', None)
         print('photo_id', photo_id)
-        if (photo_id):
+        if photo_id:
             try:
                 context['photo'] = Photo.objects.get(pk=photo_id).photo
             except (KeyError, Photo.DoesNotExist):
                 print ('Photo.DoesNotExist')
         return context
 
-    def search(self, photoPath):
-        print 'TTTTT %s ' % photoPath
-        return [{'imgPath' : get_media_path(result.logoImg)} for result in runner.runAll(photoPath, 2)]
-        
-        
-        
+    def find_logo(self, photoPath):
+        return [{'imgPath': get_media_path(result.logoImg)} for result in runner.runAll(photoPath, 2)]
+
+    def get_not_exist_url(self):
+        return reverse('main')
 
     def post(self, request, *args, **kwargs):
+        print ('POST', request.POST, request.GET)
+        photo_pk = request.POST.get('pk', None)
+        return HttpResponseRedirect(reverse('search-done', args=(photo_pk,)))
 
-        if request.is_ajax():
-            path = ''.join((settings.BASE_DIR,request.POST['url']))
-            print path
-            print settings.BASE_DIR
-            res = self.search(path)
-            print(res)
-            return HttpResponse(
-                    json.dumps({'response': res,
-                                'result': 'success'}))
+class ListCompanyView(ListView):
+    template_name = 'lightsite/list_company.html'
+    model = Company
 
-        return HttpResponse(json.dumps({'response': u"Не ajax.",
-                                'result': 'error'}))
-
-
-class ListPhotoView(ListView):
-    template_name = 'lightsite/list_photo.html'
-    model = Photo
+    def get_queryset(self):
+        queryset = super(ListCompanyView, self).get_queryset()
+        user_pk = self.request.GET.get('user_pk')
+        if user_pk:
+            staff = Staff.objects.filter(user=self.request.user)
+            companies = [i.company for i in  staff]
+            return companies
+        return []
 
 
 class CreatePhotoView(CreateView):

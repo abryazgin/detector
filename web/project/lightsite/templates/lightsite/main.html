@@ -1,48 +1,64 @@
 {% extends "lightsite/base.html" %}
 {% load staticfiles %}
 {% block content %}
+    <div id="load_section">
+        <div class="app_hi">
 
+            <div class="container">
+                <h1>Узнай, что там, не сходя с места!</h1>
 
+                <p>Просто сфотографируй логотип заведения/организации и узнай, что там находится.</p>
 
-    <div class="app_hi">
+                <a id="start_load" class="btn btn-lg app_btn_start">Начать</a>
+                <img id="spinner_load" src="{% static 'lightsite/images/2.GIF' %}"
+                     style="visibility:hidden;  "/>
 
-        <div class="container">
-            <h1>Узнай, что там, не сходя с места!</h1>
-
-            <p>Просто сфотографируй логотип заведения/организации и узнай, что там находится.</p>
-
-            <a id="start_load" class="btn btn-lg app_btn_start">Начать</a>
-            <img id="spinner_load" src="{% static 'lightsite/images/468.GIF' %}"
-                 style="visibility:hidden;  "/>
-
-
-            <form id="myForm" action="{% url 'main' %}" method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                <input id="photo" name="photo" type="file" style="visibility:hidden">
-            </form>
-
-
-        </div>
-    </div>
-
-    <div class="app_photo_list">
-        <div class="container">
-            <div class="app_photo">
-                {% if form.latest_photo_list %}
-                    {% for photo in form.latest_photo_list %}
-                        {% if  photo.photo %}
-                            <div><img src="{{ MEDIA_URL }}{{ photo.photo }}"/>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                {% endif %}
+                {% include "lightsite/load_file_snippet.html" %}
 
 
             </div>
+        </div>
 
-            <section id="load"></section>
+        <div class="app_photo_list">
+            <div class="container" id="prev_photo">
+            </div>
         </div>
     </div>
-<script type="text/javascript" src="{% static "js/main_file_load1.js" %}"></script>
+    <div id="result_section" style="display: none">
+        <div class="app_photo_result">
+            <div class="container">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            <h2> Ищем картинку:</h2>
+                            <div class="app_div_res">
+                                <img id="file_output" class="app_img_res"/>
+                            </div>
+
+                        </div>
+                        <div class="col-md-8">
+                            <button id="restart_load" type="button" class="btn btn-lg btn-success"
+                                    style="margin-top: 20px">
+                                Загрузить новую картинку
+                            </button>
+                            <img id="spinner_search" src="{% static 'lightsite/images/2.GIF' %}"
+                                 style="visibility:hidden;   margin-top: 20px; "/>
+
+                            <div id="finded_logo">
+
+                        </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="{% static "lightsite/js/prev_photo_snippet.js" %}"></script>
+    <script type="text/javascript" src="{% static "lightsite/js/load_file_snippet.js" %}"></script>
+    <script type="text/javascript" src="{% static "lightsite/js/main.js" %}"></script>
 {% endblock %}
 

@@ -1,5 +1,6 @@
 # coding: utf-8
 from preparer import prepare
+from preparer import prepareByFile
 from searcher import init, match
 from db import getAllLogos
 from serializer import unserialize
@@ -14,21 +15,24 @@ class Result(object):
     def __unicode__(self):
         return '%s - %s - %s' % (self.logoId, self.companyId, self.logoImg)
 
-def runAll (imgPath, N):
+def runAll (img, imgPath, N):
     '''
     Поиск в изображении image логотипов
-    возвращает первые N самых релевантных логотипов
-    
+    возвращает первые N самых релевантных логотипов по img или imgPath
+
+    :param img - изображение, в котором будет производится поиск логотипов
     :param imgPath - путь до изображения, в котором будет производится поиск логотипов
     :param N - количество возвращаемых логотипов
     
     :return [<Result>, ...]
     '''
-    print "RUNNER!"
+    if not img and not imgPath:
+        raise Exception('img and imgPath is None')
     detector, matcher = init('sift', False)
-    print "PREPARER!"
-    print imgPath
-    kp2, desc2 = prepare(imgPath, detector, Config.get('PHOTOS','w'), Config.get('PHOTOS','h'))
+    if imgPath :
+        kp2, desc2 = prepare(imgPath, detector, Config.get('PHOTOS','w'), Config.get('PHOTOS','h'))
+    else :
+        kp2, desc2 = prepareByFile(img, detector, Config.get('PHOTOS','w'), Config.get('PHOTOS','h'))
     logoObjects = getAllLogos()
     bestLogoObjectByCompany = None
     bestLogoObjects = []
@@ -53,10 +57,10 @@ def runAll (imgPath, N):
                     bestLogoObjectByCompany = logoObject
             else:
                 bestLogoObjectByCompany = logoObject
-    addResult(bestLogoObjects, bestLogoObjectByCompany, N)
+    # addResult(bestLogoObjects, bestLogoObjectByCompany, N)
     return [Result(logo['logoId'],
-                   logo['companyId'],
-                   logo['photoPath']) for logo in bestLogoObjects]
+                       logo['companyId'],
+                       logo['photoPath']) for logo in bestLogoObjects]
             
 
 def getSearialData(kpFilePath, descFilePath):

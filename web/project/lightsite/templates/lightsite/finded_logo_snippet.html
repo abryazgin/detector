@@ -1,0 +1,15 @@
+{% load staticfiles %}
+<div class="app_photo">
+    {% if logo %}
+        <h2>Нашлось:</h2>
+        {% for photo in logo %}
+            <div>
+                <img src="{{ photo.imgPath }}"/>
+            </div>
+        {% endfor %}
+    {% else %}
+        <h2>Ничего не нашлось :(<br/> Попробуйте другую фотографию.</h2>
+    {% endif %}
+
+
+</div>

@@ -5,6 +5,8 @@ from deta.searcher import init
 from deta.configManager import Config
 from deta.serializer import serialize
 from django.conf import settings
+from tinymce.models import HTMLField
+
 import uuid
 import os
 
@@ -24,23 +26,6 @@ class Photo(models.Model):
             self.photo.name,
         ])
 
-class User(models.Model):
-
-    login = models.CharField(
-        max_length=50,
-    )
-
-    password = models.CharField(
-        max_length=50,
-    )
-
-    date_create = models.DateTimeField(
-        auto_now_add=True,
-    )
-
-    def __unicode__(self):
-        return self.login
-
 class Company(models.Model):
 
     name = models.CharField(
@@ -58,22 +43,22 @@ class Staff(models.Model):
 
     company = models.ForeignKey(Company)
 
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
 
     def __unicode__(self):
         return ' '.join([
             self.company.name,
             '-',
-            self.user.login,
+            self.user.email,
         ])
 
 class CompanyInvite(models.Model):
 
     company = models.ForeignKey(Company)
 
-    creator = models.ForeignKey(User)
+    creator = models.ForeignKey(settings.AUTH_USER_MODEL)
 
-    html = models.TextField()
+    html = HTMLField()
 
     date_create = models.DateTimeField(
         auto_now_add=True,
@@ -90,7 +75,7 @@ class CompanyLogo(models.Model):
 
     company = models.ForeignKey(Company)
 
-    creator = models.ForeignKey(User)
+    creator = models.ForeignKey(settings.AUTH_USER_MODEL)
 
     photo = models.ImageField(
         upload_to=settings.LOGO_DIRNAME

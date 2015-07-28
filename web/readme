@@ -11,6 +11,10 @@ virtualenv ./venv/
 
 source ./venv/bin/activate
 
+инициализировать окружение
+
+pip install -U -r requirements.txt
+
 создание миграции базы
 
 python ./manage.py makemigrations
@@ -26,3 +30,7 @@ python ./manage.py createsuperuser
 копирование глобального opencv
 
 cp /usr/local/lib/python2.7/dist-packages/cv* $VIRTUAL_ENV/lib/python2.7/site-packages/
+
+запуск
+
+python ./manage.py runserver

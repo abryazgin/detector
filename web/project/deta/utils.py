@@ -31,6 +31,17 @@ def read(imgPath):
     '''
     return cv2.imread(imgPath.encode('utf-8'), 0)
 
+def readFromFile(img):
+    '''
+    Чтение изображения
+
+    :param img - изображение
+
+    :returns <Image>
+    '''
+    img_array = np.fromstring(img.read(), dtype=np.uint8)
+    return cv2.imdecode(img_array, 0)
+
 def getsize(img):
     '''
     Получение размера изображения

@@ -1,15 +1,18 @@
 {% extends "lightsite/base.html" %}
 
 {% block content %}
-    <h1>Компании</h1>
+    <div class="app_login">
 
-    <ul>
-        {% for company in object_list %}
-            <li>{{ company.name }}</li>
-        {% empty %}
-            <li>Вы не сопровождаете ни одну компанию.</li>
-        {% endfor %}
-    </ul>
-
+        Ваши компании
+    </div>
+    <div class="app_content">
+        <ul>
+            {% for company in object_list %}
+                <li>{{ company.name }} {{ company.logos }}</li>
+            {% empty %}
+                <li>Вы не сопровождаете ни одну компанию.</li>
+            {% endfor %}
+        </ul>
+    </div>
 
 {% endblock %}

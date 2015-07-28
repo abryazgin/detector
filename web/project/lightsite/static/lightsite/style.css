@@ -4,7 +4,7 @@ body {
 
 .app_header {
     margin-bottom: 0;
-
+    background-color: #cdbfe3;
 }
 
 .app_header li > a {
@@ -53,6 +53,15 @@ body {
     background-image: linear-gradient(to bottom, #563d7c 0, #6f5499 100%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#563d7c', endColorstr='#6F5499', GradientType=0);
     background-repeat: repeat-x;
+}
+
+.app_content {
+    padding-left: 60px;
+    padding-right: 60px;
+}
+
+.app_row {
+  margin-bottom: 15px;
 }
 
 .app_photo_list {

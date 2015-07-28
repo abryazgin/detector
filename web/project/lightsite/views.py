@@ -5,7 +5,7 @@ from django.views.generic import FormView
 from django.views.generic import CreateView
 from django.views.generic import ListView, DetailView, TemplateView
 
-from .models import Company, Photo, Staff
+from .models import Company, Photo, Staff, CompanyLogo, CompanyInvite
 from .forms import PhotoForm
 from UploadProgressCachedHandler import UploadProgressCachedHandler
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
@@ -92,18 +92,19 @@ class SearchView(TemplateView):
         photo_pk = request.POST.get('pk', None)
         return HttpResponseRedirect(reverse('search-done', args=(photo_pk,)))
 
-class ListCompanyView(ListView):
+class ListCompanyView(LoggedInMixin, ListView):
     template_name = 'lightsite/list_company.html'
     model = Company
 
     def get_queryset(self):
-        queryset = super(ListCompanyView, self).get_queryset()
-        user_pk = self.request.GET.get('user_pk')
-        if user_pk:
-            staff = Staff.objects.filter(user=self.request.user)
-            companies = [i.company for i in  staff]
-            return companies
-        return []
+        companies = self.model.objects.filter(staff__user=self.request.user)
+        for co in companies:
+            co.logos = CompanyLogo.objects.filter(company=co)
+            co.invites = CompanyInvite.objects.filter(company=co)
+        print companies
+        return companies
+
+
 
 
 class CreatePhotoView(CreateView):

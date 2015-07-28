@@ -2,7 +2,7 @@
 from preparer import prepare
 from preparer import prepareByFile
 from searcher import init, match
-from db import getAllLogos, saveResult
+from db import getAllLogos, addLogoStatistic
 from serializer import unserialize
 from configManager import Config
 

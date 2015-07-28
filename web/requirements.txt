@@ -1,3 +1,5 @@
 Django
 Pillow
 numpy
+django-tinymce
+django-widget-tweaks

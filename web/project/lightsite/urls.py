@@ -21,8 +21,8 @@ urlpatterns = [
     url(r'^get_prev_photo$', 'lightsite.views.get_prev_photo_from_ajax', name="get_prev_photo"),
     url(r'^search_logo$', 'lightsite.views.search_logo_from_ajax', name="search_logo"),
     url(r'^check_image$', 'lightsite.views.check_image_from_ajax', name="check_image"),
-    # url(r'^search$', views.SearchView.as_view(), name='search'),
-    # url(r'^search$', 'lightsite.views.init_search', name='search'),
+    url(r'^companies(?P<user_pk>\d+)$', views.ListCompanyView.as_view(),
+        name='usercompany-list', ),
 
     url(r'^new$', views.CreatePhotoView.as_view(),
         name='userphoto-new', ),

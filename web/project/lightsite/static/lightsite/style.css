@@ -1,3 +1,7 @@
+body {
+    background-color: #eeeeee;
+}
+
 .app_header {
     margin-bottom: 0;
 
@@ -29,6 +33,19 @@
     margin-bottom: 40px;
     font-size: 24px;
     text-align: center;
+    position: relative;
+    color: #cdbfe3;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, .1);
+    background-color: #6f5499;
+    background-image: linear-gradient(to bottom, #563d7c 0, #6f5499 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#563d7c', endColorstr='#6F5499', GradientType=0);
+    background-repeat: repeat-x;
+}
+
+.app_login {
+    padding: 60px;
+    margin-bottom: 40px;
+    font-size: 24px;
     position: relative;
     color: #cdbfe3;
     text-shadow: 0 1px 0 rgba(0, 0, 0, .1);

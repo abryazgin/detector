@@ -5,7 +5,7 @@ from django.views.generic import FormView
 from django.views.generic import CreateView
 from django.views.generic import ListView, DetailView, TemplateView
 
-from .models import Photo
+from .models import Company, Photo, Staff
 from .forms import PhotoForm
 from UploadProgressCachedHandler import UploadProgressCachedHandler
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
@@ -15,7 +15,14 @@ from django.template import RequestContext
 import json, urllib, os
 from deta import runner
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
+class LoggedInMixin(object):
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(LoggedInMixin, self).dispatch(*args, **kwargs)
 
 
 class MainView(TemplateView):
@@ -67,7 +74,7 @@ class SearchView(TemplateView):
         print('search', self.request.POST, self.kwargs)
         photo_id = self.kwargs.get('pk', None)
         print('photo_id', photo_id)
-        if (photo_id):
+        if photo_id:
             try:
                 context['photo'] = Photo.objects.get(pk=photo_id).photo
             except (KeyError, Photo.DoesNotExist):
@@ -85,9 +92,18 @@ class SearchView(TemplateView):
         photo_pk = request.POST.get('pk', None)
         return HttpResponseRedirect(reverse('search-done', args=(photo_pk,)))
 
-class ListPhotoView(ListView):
-    template_name = 'lightsite/list_photo.html'
-    model = Photo
+class ListCompanyView(ListView):
+    template_name = 'lightsite/list_company.html'
+    model = Company
+
+    def get_queryset(self):
+        queryset = super(ListCompanyView, self).get_queryset()
+        user_pk = self.request.GET.get('user_pk')
+        if user_pk:
+            staff = Staff.objects.filter(user=self.request.user)
+            companies = [i.company for i in  staff]
+            return companies
+        return []
 
 
 class CreatePhotoView(CreateView):

@@ -1,0 +1,15 @@
+{% extends "lightsite/base.html" %}
+
+{% block content %}
+    <h1>Компании</h1>
+
+    <ul>
+        {% for company in object_list %}
+            <li>{{ company.name }}</li>
+        {% empty %}
+            <li>Вы не сопровождаете ни одну компанию.</li>
+        {% endfor %}
+    </ul>
+
+
+{% endblock %}

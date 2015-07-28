@@ -40,6 +40,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     'lightsite',
+    'tinymce',
+    'widget_tweaks',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -134,6 +136,7 @@ PHOTO_DIRNAME = 'photos'
 
 # http://www.effectivedjango.com/tutorial/authzn.html
 LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = 'django.contrib.auth.views.login'
 
 print ('STATIC_ROOT', STATIC_ROOT)
 print ('STATICFILES_DIRS', STATICFILES_DIRS)

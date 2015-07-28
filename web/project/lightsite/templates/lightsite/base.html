@@ -10,7 +10,7 @@
 <body>
 <header class="navbar navbar-static-top app_header">
     <div class="container">
-         <div class="navbar-header">
+        <div class="navbar-header">
             <a class="navbar-brand app_header_brand" href="{% url "main" %}">Detector</a>
         </div>
         <nav id="bs-navbar" class="collapse navbar-collapse">
@@ -20,13 +20,22 @@
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href=""><span class="glyphicon glyphicon-log-in"></span></a></li>
-                <li><a href=";"><span class="glyphicon glyphicon-log-out"></span></a></li>
+                <!--<li style="padding-top: 15px;  padding-bottom: 15px;">{{ user }}</li>-->
+                {% if user.is_anonymous %}
+                    <li><a href="{% url 'django.contrib.auth.views.login' %}"><span
+                        class="glyphicon glyphicon-log-in"></span></a>
+                    </li>
+                {% else %}
+                    <li><a href="{% url 'django.contrib.auth.views.logout' %}">
+                        <span class="glyphicon glyphicon-log-out"></span></a>
+                    </li>
+                {% endif %}
             </ul>
         </nav>
     </div>
 </header>
 <div id="alert_placeholder" class="app_alert"></div>
+
 <script type="text/javascript" src="{% static "lightsite/js/base.js" %}"></script>
 {% block content %}
 {% endblock %}

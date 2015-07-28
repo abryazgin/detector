@@ -132,6 +132,8 @@ SERIAL_DIRNAME = 'serial'
 LOGO_DIRNAME = 'logos'
 PHOTO_DIRNAME = 'photos'
 
+# http://www.effectivedjango.com/tutorial/authzn.html
+LOGIN_REDIRECT_URL = '/'
 
 print ('STATIC_ROOT', STATIC_ROOT)
 print ('STATICFILES_DIRS', STATICFILES_DIRS)

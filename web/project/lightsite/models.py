@@ -106,3 +106,24 @@ class CompanyLogo(models.Model):
         self.serial_kp_file = serialize(kp,kp_filepath)
         self.serial_desc_file = serialize(desc,desc_filepath)
         super(CompanyLogo, self).save(*args, **kwargs)
+        
+class LogoStatistic(models.Model):
+  
+    #photo = models.ForeignKey(Photo)
+    
+    logo = models.ForeignKey(CompanyLogo)
+    
+    position = models.IntegerField()
+    
+    date_create = models.DateTimeField(auto_now_add=True)
+
+    def __unicode__(self):
+        return ' '.join([
+            self.company.name,
+            '-URL:',
+            self.photo.url,
+            '-POS:',
+            self.position,
+            '-DATE:',
+            self.date_create
+        ])

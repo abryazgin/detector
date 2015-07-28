@@ -2,7 +2,7 @@
 from preparer import prepare
 from preparer import prepareByFile
 from searcher import init, match
-from db import getAllLogos
+from db import getAllLogos, saveResult
 from serializer import unserialize
 from configManager import Config
 
@@ -57,12 +57,24 @@ def runAll (img, imgPath, N):
                     bestLogoObjectByCompany = logoObject
             else:
                 bestLogoObjectByCompany = logoObject
-    # addResult(bestLogoObjects, bestLogoObjectByCompany, N)
+    addResult(bestLogoObjects, bestLogoObjectByCompany, N)
+    addLogoStatisticToDB(bestLogoObjects)
     return [Result(logo['logoId'],
-                       logo['companyId'],
-                       logo['photoPath']) for logo in bestLogoObjects]
+                   logo['companyId'],
+                   logo['photoPath']) for logo in bestLogoObjects]
             
 
+def addLogoStatisticToDB(bestLogoObjects):
+    '''
+    Добавить результаты в БД
+    
+    :param bestLogoObjects: список результатов
+    
+    '''
+    for i in range(len(bestLogoObjects)):
+        result = bestLogoObjects[i]
+        addLogoStatistic(result.logoId, i + 1)
+  
 def getSearialData(kpFilePath, descFilePath):
     '''
     Получить подготовленные данные о изображении/логотипе по названиям файлов с его сериализованными данными

@@ -119,11 +119,11 @@ class LogoStatistic(models.Model):
 
     def __unicode__(self):
         return ' '.join([
-            self.company.name,
+            self.logo.company.name,
             '-URL:',
-            self.photo.url,
+            self.logo.photo.url,
             '-POS:',
-            self.position,
+            str(self.position),
             '-DATE:',
-            self.date_create
+            str(self.date_create)
         ])

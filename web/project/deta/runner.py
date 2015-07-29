@@ -58,10 +58,11 @@ def runAll (img, imgPath, N):
             else:
                 bestLogoObjectByCompany = logoObject
     addResult(bestLogoObjects, bestLogoObjectByCompany, N)
-    addLogoStatisticToDB(bestLogoObjects)
-    return [Result(logo['logoId'],
+    result = [Result(logo['logoId'],
                    logo['companyId'],
                    logo['photoPath']) for logo in bestLogoObjects]
+    addLogoStatisticToDB(result)
+    return result
             
 
 def addLogoStatisticToDB(bestLogoObjects):

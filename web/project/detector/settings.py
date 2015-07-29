@@ -40,7 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     'lightsite',
-    'tinymce',
+    'ckeditor',
     'widget_tweaks',
 )
 
@@ -139,12 +139,9 @@ PHOTO_DIRNAME = 'photos'
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = 'django.contrib.auth.views.login'
 
-# TINYMCE_JS_URL = os.path.join(STATIC_URL, "js/tinymce/tinymce.min.js")
-# TINYMCE_JS_ROOT = os.path.join(STATIC_ROOT, "js/tinymce")
-
-TINYMCE_SPELLCHECKER = True
-TINYMCE_COMPRESSOR = True
-
+CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_JQUERY_URL = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'
+CKEDITOR_IMAGE_BACKEND = 'pillow'
 print ('STATIC_ROOT', STATIC_ROOT)
 print ('STATICFILES_DIRS', STATICFILES_DIRS)
 print ('MEDIA_ROOT', MEDIA_ROOT)

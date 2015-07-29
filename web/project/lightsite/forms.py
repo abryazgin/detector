@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from models import Photo, CompanyInvite
-from tinymce.widgets import TinyMCE
-from django.core.urlresolvers import reverse
+from ckeditor.widgets import CKEditorWidget
 
 class PhotoForm(forms.ModelForm):
 
@@ -12,7 +11,7 @@ class PhotoForm(forms.ModelForm):
 
 class CompanyEditForm(forms.ModelForm):
 
-    html = forms.CharField(widget=TinyMCE(attrs={'cols': 20, 'rows': 10}))
+    html = forms.CharField(widget=CKEditorWidget())
 
     class Meta:
         model = CompanyInvite

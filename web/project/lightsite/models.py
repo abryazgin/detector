@@ -5,7 +5,7 @@ from deta.searcher import init
 from deta.configManager import Config
 from deta.serializer import serialize
 from django.conf import settings
-from tinymce.models import HTMLField
+from ckeditor.fields import RichTextField
 
 import uuid
 import os
@@ -58,7 +58,7 @@ class CompanyInvite(models.Model):
 
     creator = models.ForeignKey(settings.AUTH_USER_MODEL)
 
-    html = HTMLField(null=True, blank=True)
+    html = RichTextField(null=True, blank=True)
 
     date_create = models.DateTimeField(
         auto_now_add=True,

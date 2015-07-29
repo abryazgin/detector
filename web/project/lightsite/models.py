@@ -58,7 +58,7 @@ class CompanyInvite(models.Model):
 
     creator = models.ForeignKey(settings.AUTH_USER_MODEL)
 
-    html = HTMLField()
+    html = HTMLField(null=True, blank=True)
 
     date_create = models.DateTimeField(
         auto_now_add=True,
@@ -84,7 +84,7 @@ class CompanyLogo(models.Model):
     date_create = models.DateTimeField(
         auto_now_add=True,
     )
-    
+
     serial_kp_file = models.FileField (blank=True, null=True)
     serial_desc_file = models.FileField (blank=True, null=True)
 
@@ -94,11 +94,11 @@ class CompanyLogo(models.Model):
             '-',
             self.photo.url,
         ])
-    
+
     def save(self, *args, **kwargs):
         super(CompanyLogo, self).save(*args, **kwargs)
         detector, matcher = init()
-        
+
         kp, desc = prepare(os.path.join(settings.MEDIA_ROOT,self.photo.name), detector, int(Config.get('LOGOS','w')), int(Config.get('LOGOS','h')))
         uid = uuid.uuid4()
         kp_filepath = os.path.join(settings.MEDIA_ROOT,settings.SERIAL_DIRNAME,'kp_{}.pick'.format(uid))
@@ -106,15 +106,15 @@ class CompanyLogo(models.Model):
         self.serial_kp_file = serialize(kp,kp_filepath)
         self.serial_desc_file = serialize(desc,desc_filepath)
         super(CompanyLogo, self).save(*args, **kwargs)
-        
+
 class LogoStatistic(models.Model):
-  
+
     #photo = models.ForeignKey(Photo)
-    
+
     logo = models.ForeignKey(CompanyLogo)
-    
+
     position = models.IntegerField()
-    
+
     date_create = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):

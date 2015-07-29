@@ -1,0 +1,13 @@
+{% if  logo.photo %}
+    <div id="logo_img_div{{ logo.pk }}">
+        <img src="{{ MEDIA_URL }}{{ logo.photo }}"/>
+        <a data-logo_id="{{ logo.pk }}"
+           class="pull-right remove_logo_company"
+           id="remove_logo_company{{ logo.pk }}"
+           title="Удалить логотип">
+            <span class="glyphicon glyphicon-remove app_logo_img"
+                 ></span>
+
+        </a>
+    </div>
+{% endif %}

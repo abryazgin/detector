@@ -1,18 +1,19 @@
 {% extends "lightsite/base.html" %}
-
+{% load staticfiles %}
 {% block content %}
     <div class="app_login">
 
         Ваши компании
     </div>
     <div class="app_content">
-        <ul>
-            {% for company in object_list %}
-                <li>{{ company.name }} {{ company.logos }}</li>
-            {% empty %}
-                <li>Вы не сопровождаете ни одну компанию.</li>
-            {% endfor %}
-        </ul>
+        {% for company in object_list %}
+            {% include "lightsite/company_snippet.html" %}
+
+        {% empty %}
+            Вы не сопровождаете ни одну компанию.
+        {% endfor %}
     </div>
 
+    <script type="text/javascript" src="{% static "lightsite/js/company_snippet.js" %}"></script>
+    <script type="text/javascript" src="{% static "lightsite/js/list_company.js" %}"></script>
 {% endblock %}

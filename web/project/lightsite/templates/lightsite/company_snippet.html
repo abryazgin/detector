@@ -1,0 +1,31 @@
+{% load staticfiles %}
+<div class="row app_row">
+    <h3>{{ company.name }}
+        <small><a href="{% url 'company-edit' company.pk %}">Редактировать страницу компании</a></small>
+    </h3>
+
+    <div id="logos_{{ company.pk }}" class="app_photo" style="margin-bottom: 10px">
+        {% if company.logos %}
+            {% for logo in company.logos %}
+                {% include "lightsite/logo_img_snippet.html" %}
+            {% endfor %}
+            <!-- % else %}
+                <p>Не добавлено ни одного логотипа</p>-->
+        {% endif %}
+    </div>
+
+    <a data-company_id="{{ company.pk }}"
+       id="load_logo_company{{ company.pk }}"
+       class="btn btn-success load_logo_company">
+        <span class="glyphicon glyphicon glyphicon-plus"></span>
+        логотип</a>
+    <img id="spinner_load{{ company.pk }}" src="{% static 'lightsite/images/2.GIF' %}"
+         style="visibility:hidden;  "/>
+
+    <form id="loadLogoForm{{ company.pk }}"  enctype="multipart/form-data">
+        {% csrf_token %}
+        <input class="file_logo" id="file_id{{ company.pk }}" data-company_id="{{ company.pk }}" name="photo" type="file" accept="image/*" style="visibility:hidden">
+        <input name="company_id" value="{{ company.pk }}" style="visibility:hidden">
+    </form>
+
+</div>

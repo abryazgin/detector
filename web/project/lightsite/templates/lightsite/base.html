@@ -6,6 +6,8 @@
     <link rel="stylesheet" type="text/css" href="{% static 'lightsite/style.css' %}"/>
     <script type="text/javascript" src="{% static 'js/jquery-2.1.4.js' %}"></script>
     <script type="text/javascript" src="{% static 'bootstrap-3.3.5-dist/js/bootstrap.js' %}"></script>
+
+    <script type="text/javascript" src="{{TINYMCE_JS_URL}}"></script>
 </head>
 <body>
 <header class="navbar navbar-static-top app_header">
@@ -17,10 +19,10 @@
             <ul class="nav navbar-nav">
                 {% if user.is_authenticated %}
                 <li>
-                    <a href="{% url "usercompany-list" %}">Компании</a>
+                    <a href="{% url "company-list" %}">Компании</a>
                 </li>
                 <li>
-                    <a href="{% url "admin:index" %}">Статистика</a>
+                    <a href="{% url "statistic-list" %}">Статистика</a>
                 </li>
                 {% endif %}
             </ul>

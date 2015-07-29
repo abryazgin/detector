@@ -51,51 +51,5 @@ var choose_file = function () {
     $('#file_id').click()
 }
 
-var initLoad = function (previewFile, callback_func, spinnerId) {
 
-    //$('#loadFileForm').submit(function (e) {
-    //    e.preventDefault();
-    //    $('#' + spinnerId).css('visibility', 'visible');
-    //    // create an AJAX call…
-    //    var data = new FormData($('#loadFileForm').get(0));
-    //    console.log('AJAX!!!', $('#loadFileForm').attr('method'), $('#loadFileForm').attr('action'), data)
-    //
-    //    $.ajax({
-    //        cache: true,
-    //        dataType: 'json',
-    //        processData: false,
-    //        contentType: false,
-    //
-    //        // get the form data
-    //        data: data,
-    //        csrfmiddlewaretoken: '{{ csrf_token }}',
-    //        // GET or POST
-    //        type: $('#loadFileForm').attr('method'),
-    //        // the file to call
-    //        url: $('#loadFileForm').attr('action'),
-    //        // on success..
-    //
-    //        success: function (response) {
-    //            $('#' + spinnerId).css('visibility', 'hidden');
-    //            if (response['result'] == 'success') {
-    //                console.log('SUCCESS', response)
-    //
-    //                if (callback_func){
-    //                    callback_func(response["data"]);
-    //                }
-    //            }
-    //            else if (response['result'] == 'error') {
-    //                console.log('OK error', response);
-    //                bootstrap_alert(response['data'])
-    //            }
-    //        },
-    //        error: function (response) {
-    //            $('#' + spinnerId).css('visibility', 'hidden');
-    //            // Displays the error message.
-    //            console.log('error', response.responseText)
-    //            bootstrap_alert("Ошибка при загрузке")
-    //        },
-    //    });
-    //});
-}
 

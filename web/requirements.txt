@@ -1,5 +1,5 @@
 Django
 Pillow
 numpy
-django-ckeditor
 django-widget-tweaks
+django-summernote

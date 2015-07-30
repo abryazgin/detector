@@ -40,7 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     'lightsite',
-    'ckeditor',
+    'django_summernote',
     'widget_tweaks',
 )
 
@@ -139,9 +139,24 @@ PHOTO_DIRNAME = 'photos'
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = 'django.contrib.auth.views.login'
 
-CKEDITOR_UPLOAD_PATH = "uploads/"
-CKEDITOR_JQUERY_URL = '//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js'
-CKEDITOR_IMAGE_BACKEND = 'pillow'
+SUMMERNOTE_CONFIG = {
+
+    # Or, set editor language/locale forcely
+    'lang': 'ru-RU',
+
+    'width': '100%',
+    'height': '480',
+
+    'toolbar': [
+        ['style', ['style', 'bold', 'italic', 'underline', 'clear', 'fontsize']],
+        ['para', ['ul', 'ol', 'paragraph']],
+        ['insert', ['link', 'table', 'hr', 'picture']],
+        ['misc', ['undo', 'redo']],
+
+    ],
+
+}
+
 print ('STATIC_ROOT', STATIC_ROOT)
 print ('STATICFILES_DIRS', STATICFILES_DIRS)
 print ('MEDIA_ROOT', MEDIA_ROOT)

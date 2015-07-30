@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from models import Photo, CompanyInvite
-from ckeditor.widgets import CKEditorWidget
+from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 
 class PhotoForm(forms.ModelForm):
 
@@ -11,11 +11,12 @@ class PhotoForm(forms.ModelForm):
 
 class CompanyEditForm(forms.ModelForm):
 
-    html = forms.CharField(widget=CKEditorWidget())
-
     class Meta:
         model = CompanyInvite
         fields = ['company', 'html']
+        widgets = {
+           'html':  SummernoteWidget(),
+        }
 
 
 

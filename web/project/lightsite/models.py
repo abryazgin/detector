@@ -5,14 +5,12 @@ from deta.searcher import init
 from deta.configManager import Config
 from deta.serializer import serialize
 from django.conf import settings
-from ckeditor.fields import RichTextField
 
 import uuid
 import os
 
 # Create your models here.
 class Photo(models.Model):
-
     date_create = models.DateTimeField(
         auto_now_add=True,
     )
@@ -26,8 +24,8 @@ class Photo(models.Model):
             self.photo.name,
         ])
 
-class Company(models.Model):
 
+class Company(models.Model):
     name = models.CharField(
         max_length=50,
     )
@@ -39,8 +37,8 @@ class Company(models.Model):
     def __unicode__(self):
         return self.name
 
-class Staff(models.Model):
 
+class Staff(models.Model):
     company = models.ForeignKey(Company)
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
@@ -52,13 +50,13 @@ class Staff(models.Model):
             self.user.email,
         ])
 
-class CompanyInvite(models.Model):
 
+class CompanyInvite(models.Model):
     company = models.ForeignKey(Company)
 
     creator = models.ForeignKey(settings.AUTH_USER_MODEL)
 
-    html = RichTextField(null=True, blank=True)
+    html = models.TextField()
 
     date_create = models.DateTimeField(
         auto_now_add=True,
@@ -71,8 +69,8 @@ class CompanyInvite(models.Model):
     def __unicode__(self):
         return self.company.name
 
-class CompanyLogo(models.Model):
 
+class CompanyLogo(models.Model):
     company = models.ForeignKey(Company)
 
     creator = models.ForeignKey(settings.AUTH_USER_MODEL)
@@ -85,8 +83,8 @@ class CompanyLogo(models.Model):
         auto_now_add=True,
     )
 
-    serial_kp_file = models.FileField (blank=True, null=True)
-    serial_desc_file = models.FileField (blank=True, null=True)
+    serial_kp_file = models.FileField(blank=True, null=True)
+    serial_desc_file = models.FileField(blank=True, null=True)
 
     def __unicode__(self):
         return ' '.join([
@@ -99,24 +97,25 @@ class CompanyLogo(models.Model):
         super(CompanyLogo, self).save(*args, **kwargs)
         detector, matcher = init()
 
-        kp, desc = prepare(os.path.join(settings.MEDIA_ROOT,self.photo.name), detector, int(Config.get('LOGOS','w')), int(Config.get('LOGOS','h')))
+        kp, desc = prepare(os.path.join(settings.MEDIA_ROOT, self.photo.name), detector, int(Config.get('LOGOS', 'w')),
+                           int(Config.get('LOGOS', 'h')))
         uid = uuid.uuid4()
-        kp_filepath = os.path.join(settings.MEDIA_ROOT,settings.SERIAL_DIRNAME,'kp_{}.pick'.format(uid))
-        desc_filepath = os.path.join(settings.MEDIA_ROOT,settings.SERIAL_DIRNAME,'desc_{}.pick'.format(uid))
-        self.serial_kp_file = serialize(kp,kp_filepath)
-        self.serial_desc_file = serialize(desc,desc_filepath)
+        kp_filepath = os.path.join(settings.MEDIA_ROOT, settings.SERIAL_DIRNAME, 'kp_{}.pick'.format(uid))
+        desc_filepath = os.path.join(settings.MEDIA_ROOT, settings.SERIAL_DIRNAME, 'desc_{}.pick'.format(uid))
+        self.serial_kp_file = serialize(kp, kp_filepath)
+        self.serial_desc_file = serialize(desc, desc_filepath)
         super(CompanyLogo, self).save(*args, **kwargs)
-        
+
+
 class LogoStatistic(models.Model):
-  
-    #photo = models.ForeignKey(Photo)
-    
+    # photo = models.ForeignKey(Photo)
+
     logo = models.ForeignKey(CompanyLogo)
-    
+
     position = models.IntegerField()
-    
+
     go_to_company = models.BooleanField(default=False)
-    
+
     date_create = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):

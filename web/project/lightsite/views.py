@@ -46,7 +46,7 @@ def get_media_path(abspath):
 
 
 def search_logo_from_ajax(request):
-    logo = [{'imgPath': get_media_path(result.logoImg)} for result in
+    logo = [{'imgPath': get_media_path(result.logoImg), 'company_pk': result.companyId} for result in
             runner.runAll(request.FILES['photo'], None, 2)]
     print ('logo', logo)
     context = {

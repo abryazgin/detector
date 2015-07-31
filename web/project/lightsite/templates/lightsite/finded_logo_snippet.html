@@ -4,7 +4,7 @@
         <h2>Нашлось:</h2>
         {% for photo in logo %}
             <div>
-                <img src="{{ photo.imgPath }}"/>
+                <img src="{{ photo.imgPath }}" href="{% url 'company-view' photo.company_pk %}"/>
             </div>
         {% endfor %}
     {% else %}

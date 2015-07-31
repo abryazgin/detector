@@ -1,3 +1,23 @@
-<h1>{{ company.name }}</h1>
+{% extends "lightsite/base.html" %}
+{% load staticfiles %}
+{% block content %}
 
-привет!
+    <div class="app_login">
+
+        Компания <span style="font-weight: bolder;font-size: larger;">{{ ci.company.name }}</span>
+
+
+        <a href="{% url "main" %}" class="btn btn-success btn-lg pull-right">В начало</a>
+
+        {% if user.is_authenticated %}
+            <a href="{% url 'company-edit' ci.company.pk %}" title="редактировать"
+               class="btn btn-primary btn-lg pull-right" style="margin-right:10px">
+                <span class="glyphicon glyphicon-pencil" style="  font-size: x-large;"></span></a>
+        {% endif %}
+    </div>
+    <div class="app_content">
+
+        {{ ci.html | safe }}
+    </div>
+
+{% endblock %}

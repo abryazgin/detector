@@ -4,29 +4,24 @@
 
     <div class="app_login">
 
-        Компания {{ form.company.name }}
-    (редактирование страницы-представления)
+        Компания <span style="font-weight: bolder;font-size: larger;">{{ form.instance.company.name }}</span>
+        (редактирование страницы-представления)
     </div>
     <div class="app_content">
-        <form method="post" action="">
+        <form id="saveForm" method="post" action="{% url 'company-edit' form.instance.company.pk %}">
             {% csrf_token %}
 
-            {% if form.errors %}
-                <div class="row app_row">
-                    <div class="col-sm-10">
-                        <p class="alert alert-danger">{{ form.errors }}</p>
-                    </div>
-                </div>
-
-            {% endif %}
             <div class="row app_row">
                 {{ form.media }}
-                {{ form.html|safe}}
+                {{ form.html|safe }}
             </div>
             <div class="row app_row">
-                <button type="submit" class="btn btn-default">Сохранить изменения</button>
+                <button  id="button_save" class="btn btn-success">Сохранить изменения</button>
+                <img id="spinner_load" src="{% static 'lightsite/images/2.GIF' %}"
+                     style="visibility:hidden;  "/>
             </div>
         </form>
     </div>
 
+    <script type="text/javascript" src="{% static "lightsite/js/edit_company.js" %}"></script>
 {% endblock %}

@@ -56,7 +56,9 @@ class CompanyInvite(models.Model):
 
     creator = models.ForeignKey(settings.AUTH_USER_MODEL)
 
-    html = models.TextField()
+    html = models.TextField(
+        null=True
+    )
 
     date_create = models.DateTimeField(
         auto_now_add=True,

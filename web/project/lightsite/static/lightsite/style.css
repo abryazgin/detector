@@ -62,6 +62,15 @@ body {
 
 .app_row {
     margin-bottom: 15px;
+    border: 2px solid #cdbfe3;
+    border-radius: 4px;
+    padding: 15px;
+}
+
+.app_preview {
+    border: 2px solid #cdbfe3;
+    border-radius: 4px;
+    padding: 5px;
 }
 
 .app_photo_list {
@@ -123,6 +132,20 @@ body {
 .app_logo_img {
     left: -25px;
     font-size: 25px;
+}
+
+.app_scale {
+    -ms-transform: scale(2,3); /* IE 9 */
+    -webkit-transform: scale(2,3); /* Safari */
+    transform: scale(2,3);
+}
+
+.app_qwe {
+  zoom: 0.5;
+-ms-zoom: 0.5;
+-webkit-zoom: 0.5;
+-moz-transform:  scale(0.5,0.5);
+-moz-transform-origin: left center
 }
 
 ​

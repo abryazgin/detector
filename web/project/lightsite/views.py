@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render, redirect, render_to_response
+from django.shortcuts import render, redirect, render_to_response,get_object_or_404
 from django.core.urlresolvers import reverse
 from django.views.generic import FormView
 from django.views.generic import CreateView, UpdateView
@@ -17,7 +17,6 @@ from deta import runner
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-
 
 class LoggedInMixin(object):
     @method_decorator(login_required)
@@ -112,9 +111,10 @@ class ListCompanyView(LoggedInMixin, ListView):
         for co in companies:
             co.logos = CompanyLogo.objects.filter(company=co)
             co.invites = CompanyInvite.objects.filter(company=co)
+            print co.invites
         return companies
 
-class CompanyEditView(UpdateView):
+class CompanyEditView(LoggedInMixin, UpdateView):
     model = CompanyInvite
     form_class = CompanyEditForm
     template_name = 'lightsite/edit-company.html'
@@ -129,26 +129,37 @@ class CompanyEditView(UpdateView):
         except CompanyInvite.DoesNotExist:
             print 'creating new invite'
             company = Company.objects.get(pk=pk)
-            print company
             ci = CompanyInvite(company=company, creator=self.request.user)
             ci.save()
         return ci
 
     def post(self, request, *args, **kwargs):
-        # form = self.form_class(request.POST, request.FILES)
-        form = PhotoForm(request.POST, request.FILES)
+        pk = self.kwargs.get('pk')
+        s = get_object_or_404(CompanyInvite, company__pk=pk)
+
+        form = CompanyEditForm(request.POST, instance=s)
         if form.is_valid():
             ci = form.save()
             form.save()
-            return redirect(self.get_success_url(ci.company.pk))
+            return HttpResponse(
+            json.dumps({'data': u"Страница успешно сохранилась.",
+                        'result': 'success',
+                        'next': self.get_success_url(ci.company.pk)}))
+        return HttpResponse(
+            json.dumps({'data': u"Наполните, пожалуйста, страницу-приветствие.",
+                        'result': 'error'}))
 
-        return render(request, self.template_name, {'form': form})
 
+class CompanyView(TemplateView):
 
-class CompanyView(DetailView):
-    model = Company
     template_name = 'lightsite/view-company.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(CompanyView, self).get_context_data(**kwargs)
+        pk = self.kwargs.get('pk')
+        ci = get_object_or_404(CompanyInvite, company__pk=pk)
+        context['ci'] = ci
+        return context
 
 class ListStatisticView(LoggedInMixin, TemplateView):
     template_name = 'lightsite/list_statistic.html'

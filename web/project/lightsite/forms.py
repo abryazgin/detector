@@ -13,7 +13,7 @@ class CompanyEditForm(forms.ModelForm):
 
     class Meta:
         model = CompanyInvite
-        fields = ['company', 'html']
+        fields = ['html']
         widgets = {
            'html':  SummernoteWidget(),
         }

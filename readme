@@ -34,3 +34,7 @@ cp /usr/local/lib/python2.7/dist-packages/cv* $VIRTUAL_ENV/lib/python2.7/site-pa
 запуск
 
 python ./manage.py runserver
+
+ИЛИ
+
+gunicorn detector.wsgi

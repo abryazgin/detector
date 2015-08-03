@@ -8,7 +8,7 @@
 *.JPEG
 .idea/
 *~
-!/web/project/lightsite/static/lightsite/images/*
+!/project/lightsite/static/lightsite/images/*
 
 *.db
 .project

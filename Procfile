@@ -1,0 +1,1 @@
+web: gunicorn --pythonpath project detector.wsgi

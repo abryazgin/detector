@@ -1,5 +1,8 @@
-Django
-Pillow
-numpy
-django-widget-tweaks
-django-summernote
+Django==1.8.3
+Pillow==2.9.0
+argparse==1.2.1
+django-summernote==0.6.10
+django-widget-tweaks==1.4.1
+gunicorn==19.3.0
+numpy==1.9.2
+wsgiref==0.1.2

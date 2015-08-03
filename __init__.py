@@ -1,2 +1,1 @@
-import deta
-import web
+from project import lightsite 

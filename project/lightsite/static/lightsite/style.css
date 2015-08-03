@@ -62,6 +62,10 @@ body {
 
 .app_row {
     margin-bottom: 15px;
+}
+
+.app_row_border {
+    margin-bottom: 15px;
     border: 2px solid #cdbfe3;
     border-radius: 4px;
     padding: 15px;

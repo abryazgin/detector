@@ -106,6 +106,12 @@ class ListCompanyView(LoggedInMixin, ListView):
     template_name = 'lightsite/list_company.html'
     model = Company
 
+    def get_context_data(self, **kwargs):
+        context = super(ListCompanyView, self).get_context_data(**kwargs)
+        context['MEDIA_URL'] = settings.MEDIA_URL
+        return context
+
+
     def get_queryset(self):
         companies = self.model.objects.filter(staff__user=self.request.user)
         for co in companies:

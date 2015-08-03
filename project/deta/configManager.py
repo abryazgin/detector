@@ -16,5 +16,4 @@ import os
 Config = ConfigParser.ConfigParser()
 
 fileConfig = (os.path.join(os.getcwd(),'config'))
-
 Config.read(fileConfig)

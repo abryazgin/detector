@@ -99,6 +99,7 @@ class CompanyLogo(models.Model):
         super(CompanyLogo, self).save(*args, **kwargs)
         detector, matcher = init()
 
+
         kp, desc = prepare(os.path.join(settings.MEDIA_ROOT, self.photo.name), detector, int(Config.get('LOGOS', 'w')),
                            int(Config.get('LOGOS', 'h')))
         uid = uuid.uuid4()

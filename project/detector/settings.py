@@ -14,7 +14,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 # Quick-start development settings - unsuitable for production
@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'c+s+l+zqffw42%rhl23#h(_h1e!-p!=&7yiwdz_om9#ip5o2h)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -79,7 +79,7 @@ TEMPLATES = [
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+    #     'django.template.loaders.eggs.Loader',
 )
 
 WSGI_APPLICATION = 'detector.wsgi.application'
@@ -88,16 +88,27 @@ WSGI_APPLICATION = 'detector.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',  # ’postgresql_psycopg2’, ’mysql’, ’sqlite3’ or ’oracle'.
-        'NAME': os.path.join(BASE_DIR, 'detector.db'),
-        'USER': '',  # Not used with sqlite3.
-        'PASSWORD': '',  # Not used with sqlite3.
-        'HOST': '',  # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',  # Set to empty string for default. Not used with sqlite3.
+import dj_database_url
+
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',  # ’postgresql_psycopg2’, ’mysql’, ’sqlite3’ or ’oracle'.
+            'NAME': os.path.join(BASE_DIR, 'detector.db'),
+            'USER': '',  # Not used with sqlite3.
+            'PASSWORD': '',  # Not used with sqlite3.
+            'HOST': '',  # Set to empty string for localhost. Not used with sqlite3.
+            'PORT': '',  # Set to empty string for default. Not used with sqlite3.
+        }
     }
-}
+else:
+    DATABASES = {
+
+        'default': dj_database_url.config(),
+    }
+    DATABASES['default']['ENGINE'] = 'django_postgrespool'
+
+
 
 
 # Internationalization
@@ -116,21 +127,18 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 APP_NAME = 'detector'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-    # Put strings here, like "/home/html/static" or "C:/www/django/static".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-    os.path.join(
-        os.path.dirname(__file__),
-        'static',
-    ),
+    os.path.join(BASE_DIR, 'static'),
 )
+
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
 SERIAL_DIRNAME = 'serial'
 LOGO_DIRNAME = 'logos'
 PHOTO_DIRNAME = 'photos'
@@ -139,23 +147,21 @@ PHOTO_DIRNAME = 'photos'
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = 'django.contrib.auth.views.login'
 
-SUMMERNOTE_CONFIG = {
+SUMMERNOTE_CONFIG = {  # Or, set editor language/locale forcely
+                       'lang': 'ru-RU',
 
-    # Or, set editor language/locale forcely
-    'lang': 'ru-RU',
+                       'width': '100%',
+                       'height': '480',
 
-    'width': '100%',
-    'height': '480',
+                       'toolbar': [
+                           ['style', ['style', 'bold', 'italic', 'underline', 'clear', 'fontsize']],
+                           ['para', ['ul', 'ol', 'paragraph']],
+                           ['insert', ['link', 'table', 'hr', 'picture']],
+                           ['misc', ['undo', 'redo']],
 
-    'toolbar': [
-        ['style', ['style', 'bold', 'italic', 'underline', 'clear', 'fontsize']],
-        ['para', ['ul', 'ol', 'paragraph']],
-        ['insert', ['link', 'table', 'hr', 'picture']],
-        ['misc', ['undo', 'redo']],
+                       ],
 
-    ],
-
-}
+                       }
 
 print ('STATIC_ROOT', STATIC_ROOT)
 print ('STATICFILES_DIRS', STATICFILES_DIRS)

@@ -1,0 +1,11 @@
+[PATHS]
+resDir = ../project/media/results
+photoDir = ../project/media/photos
+logoDir = ../project/media/logos
+serialDir = ../project/media/serial
+[LOGOS]
+w = 640
+h = 480
+[PHOTOS]
+w = 800
+h = 600

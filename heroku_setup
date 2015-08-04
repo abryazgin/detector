@@ -1,0 +1,3 @@
+ heroku stack:set cedar-14
+
+ heroku ps:scale web=1

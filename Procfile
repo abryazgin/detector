@@ -1,1 +1,1 @@
-web: gunicorn  detector.wsgi
+web: gunicorn detector.wsgi

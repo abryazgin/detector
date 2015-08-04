@@ -38,3 +38,5 @@ python ./manage.py runserver
 ИЛИ
 
 gunicorn detector.wsgi
+
+

@@ -1,4 +1,3 @@
-
 *.pyc
 *.jpg
 *.JPG
@@ -9,7 +8,6 @@
 .idea/
 *~
 !/project/lightsite/static/lightsite/images/*
-
 *.db
 .project
 .pydevproject

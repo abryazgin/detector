@@ -1,3 +1,9 @@
  heroku stack:set cedar-14
 
  heroku ps:scale web=1
+
+
+heroku buildpacks:clear
+heroku buildpacks:set https://github.com/some/buildpack.git
+heroku config:add BUILDPACK_URL=git://github.com/heroku/heroku-buildpack-python.git
+

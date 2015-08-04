@@ -1,8 +1,8 @@
 [PATHS]
-resDir = ../project/media/results
-photoDir = ../project/media/photos
-logoDir = ../project/media/logos
-serialDir = ../project/media/serial
+resDir = ../media/results
+photoDir = ../media/photos
+logoDir = ../media/logos
+serialDir = ../media/serial
 [LOGOS]
 w = 640
 h = 480

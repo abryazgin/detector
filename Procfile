@@ -1,1 +1,1 @@
-web: gunicorn --pythonpath project detector.wsgi
+web: gunicorn  detector.wsgi

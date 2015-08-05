@@ -88,28 +88,12 @@ WSGI_APPLICATION = 'detector.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
+DATABASES = {}
+
+# Parse database configuration from $DATABASE_URL
 import dj_database_url
-
-if DEBUG:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',  # ’postgresql_psycopg2’, ’mysql’, ’sqlite3’ or ’oracle'.
-            'NAME': os.path.join(BASE_DIR, 'detector.db'),
-            'USER': '',  # Not used with sqlite3.
-            'PASSWORD': '',  # Not used with sqlite3.
-            'HOST': '',  # Set to empty string for localhost. Not used with sqlite3.
-            'PORT': '',  # Set to empty string for default. Not used with sqlite3.
-        }
-    }
-else:
-    DATABASES = {
-
-        'default': dj_database_url.config(),
-    }
-    DATABASES['default']['ENGINE'] = 'django_postgrespool'
-
-
-
+DATABASES['default'] = dj_database_url.config(default='postgres://postgres:1@localhost:5432/deta')
+DATABASES['default']['ENGINE'] = 'django_postgrespool'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/

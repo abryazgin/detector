@@ -7,7 +7,7 @@ django-postgrespool==0.3.0
 django-summernote==0.6.10
 django-widget-tweaks==1.4.1
 gunicorn==19.3.0
-numpy==1.9.2
+numpy==1.8.2
 psycopg2==2.6.1
 whitenoise==2.0.2
 wsgiref==0.1.2

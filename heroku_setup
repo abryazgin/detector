@@ -9,3 +9,4 @@ heroku config:add BUILDPACK_URL=git://github.com/heroku/heroku-buildpack-python.
 
 
 https://github.com/diogojc/heroku-buildpack-python-opencv-scipy
+

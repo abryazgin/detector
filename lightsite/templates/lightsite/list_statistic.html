@@ -5,34 +5,46 @@
 
         Статистика
     </div>
-    <p class="app_content">
+    <div class="app_content">
 
-        {% if object_list %}
-            <table class="table table-bordered">
-                <thead>
-                <tr>
-                    <th>Компания</th>
-                    <th>Логотип</th>
-                    <th>Учавствовал в поиске</th>
-                    <th>Был переход</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for obj in object_list %}
-                    <tr>
-                        <th >{{ obj.logo.company.name }}</th>
-                        <td><img src="{{ MEDIA_URL }}{{ obj.logo.photo }}" style="width:50px; height: 50px"/></td>
-                        <td>{{ obj.searchCount }}</td>
-                        <td>{{ obj.redirectCount }}</td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        {% else %}
-            <div class="row app_row">
-                У Ваших компаний нет логотипов
+        {% for obj in object_list %}
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    {{ obj.company.name  }}
+                </div>
+                <div class="panel-body">
+                    {% if obj.logos %}
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>Логотип</th>
+                                <th>Учавствовал в поиске</th>
+                                <th>Был переход</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for obg_logo in obj.logos %}
+                                <tr >
+                                    <td><img src="{{ MEDIA_URL }}{{ obg_logo.logo.photo }}"
+                                             style="width:50px; height: 50px"/></td>
+                                    <td style="vertical-align: middle;">{{ obg_logo.searchCount }}</td>
+                                    <td style="vertical-align: middle;">{{ obg_logo.redirectCount }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <div class="row app_row">
+                            Для компании не добавлен ни один логотип.
+                        </div>
+                    {% endif %}
+                </div>
             </div>
-        {% endif %}
+        {% empty %}
+            <div class="row app_row">
+                У Вас нет компаний.
+            </div>
+        {% endfor %}
 
 
     </div>

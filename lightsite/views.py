@@ -252,13 +252,13 @@ class ListStatisticView(LoggedInMixin, ListView):
         my_company = Company.objects.filter(staff__user=self.request.user)
         print 'my_company', my_company
 
-        my_logo = CompanyLogo.objects.filter(company__in=my_company).order_by('company__name')
-        print 'my_logo', my_logo
-
-        for logo in my_logo:
-            searchCount = LogoStatistic.objects.filter(logo=logo)
-            redirectCount = searchCount.filter(go_to_company=True)
-            result.append({'logo': logo, 'searchCount':searchCount.count(), 'redirectCount':redirectCount.count() })
+        for company in my_company:
+            company_res = {'company': company, 'logos': []}
+            for logo in CompanyLogo.objects.filter(company=company):
+                searchCount = LogoStatistic.objects.filter(logo=logo)
+                redirectCount = searchCount.filter(go_to_company=True)
+                company_res['logos'].append({'logo': logo, 'searchCount':searchCount.count(), 'redirectCount':redirectCount.count() })
+            result.append(company_res)
 
         print 'result', result
         return result

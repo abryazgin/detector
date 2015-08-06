@@ -1,10 +1,13 @@
 {% load staticfiles %}
-<div class="row app_row_border">
+<div class="row app_row_border" id="company_div{{ company.pk }}">
 
 
-    <div class=" col-xs-6">
+    <div class=" col-xs-6 ">
         <h2>{{ company.name }}
-
+            <a data-company_id="{{ company.pk }}"
+               id="remove_company{{ company.pk }}"
+               class="btn btn-danger remove_company">
+                Удалить</a>
         </h2>
 
         <div id="logos_{{ company.pk }}" class="app_photo" style="margin-bottom: 10px">
@@ -12,9 +15,9 @@
                 {% for logo in company.logos %}
                     {% include "lightsite/logo_img_snippet.html" %}
                 {% endfor %}
-                <!-- % else %}
-                    <p>Не добавлено ни одного логотипа</p>-->
+
             {% endif %}
+            <p>Чем больше логотипов Вы добавите, тем больше людей найдут Вашу компанию.</p>
         </div>
 
         <a data-company_id="{{ company.pk }}"
@@ -26,7 +29,7 @@
              style="visibility:hidden;  "/>
     </div>
 
-    <div class="col-xs-6">
+    <div class="col-xs-6" style="  margin-top: 20px;">
         <div class="panel panel-default">
             <div class="panel-heading">
                 Превью &nbsp;

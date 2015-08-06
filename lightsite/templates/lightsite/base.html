@@ -29,11 +29,11 @@
             <ul class="nav navbar-nav navbar-right">
                 <!--<li style="padding-top: 15px;  padding-bottom: 15px;">{{ user }}</li>-->
                 {% if user.is_anonymous %}
-                    <li><a href="{% url 'django.contrib.auth.views.login' %}">
+                    <li><a href="{% url 'auth_login' %}">
                         Войти&nbsp;<span class="glyphicon glyphicon-log-in"></span></a>
                     </li>
                 {% else %}
-                    <li><a href="{% url 'django.contrib.auth.views.logout' %}">
+                    <li><a href="{% url 'auth_logout' %}?next=/">
                         Выйти&nbsp;<span class="glyphicon glyphicon-log-out"></span></a>
                     </li>
                 {% endif %}

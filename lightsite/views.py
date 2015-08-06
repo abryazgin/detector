@@ -6,7 +6,7 @@ from django.views.generic import CreateView, UpdateView
 from django.views.generic import ListView, DetailView, TemplateView
 
 from .models import Company, Photo, Staff, CompanyLogo, CompanyInvite
-from .forms import PhotoForm, CompanyEditForm
+from .forms import PhotoForm, CompanyEditForm, CompanyNewForm
 from UploadProgressCachedHandler import UploadProgressCachedHandler
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.core.cache import cache
@@ -32,6 +32,8 @@ def check_image_from_ajax(request):
     form = PhotoForm(request.POST, request.FILES)
     print ("check_image_from_ajax", request.FILES, form.is_valid())
     if form.is_valid():
+        photo = Photo(photo=request.FILES['photo'])
+        photo.save()
         return HttpResponse(
             json.dumps({
                 'result': 'success'}))
@@ -90,6 +92,19 @@ def remove_logo_from_ajax(request):
             raise HttpResponseServerError('Не найден логотип ' + logo_id)
     else:
         return HttpResponseServerError('Не найден параметр logo_id')
+
+def remove_company_from_ajax(request):
+    print request.GET
+    company_id = request.GET.get('company_id', None)
+    if company_id:
+        try:
+            company = Company.objects.get(pk=company_id)
+            company.delete()
+            return HttpResponse("Компания успешно удалена")
+        except Company.DoesNotExist:
+            raise HttpResponseServerError('Не найдена компания ' + company_id)
+    else:
+        return HttpResponseServerError('Не найден параметр company_id')
 
 
 def get_prev_photo_from_ajax(request):
@@ -155,6 +170,35 @@ class CompanyEditView(LoggedInMixin, UpdateView):
             json.dumps({'data': u"Наполните, пожалуйста, страницу-приветствие.",
                         'result': 'error'}))
 
+class CompanyNewView(LoggedInMixin, FormView):
+
+    form_class = CompanyNewForm
+    template_name = 'lightsite/new-company.html'
+
+    def get_success_url(self, pk):
+        return reverse('company-list')
+
+    def post(self, request, *args, **kwargs):
+
+        form = CompanyNewForm(request.POST)
+        if form.is_valid():
+
+            company = Company(name=form.cleaned_data['name'])
+            company.save()
+
+            ci = CompanyInvite(company=company, html=form.cleaned_data['html'], creator=self.request.user)
+            ci.save()
+
+            staff = Staff(company=company, user=request.user)
+            staff.save()
+
+            return HttpResponse(
+            json.dumps({'data': u"Компания успешно сохранилась.",
+                        'result': 'success',
+                        'next': self.get_success_url(company.pk)}))
+        return HttpResponse(
+            json.dumps({'data': u"Заполните, пожалуйста, название и страницу-приветствие.",
+                        'result': 'error'}))
 
 class CompanyView(TemplateView):
 
@@ -171,48 +215,3 @@ class ListStatisticView(LoggedInMixin, TemplateView):
     template_name = 'lightsite/list_statistic.html'
 
 
-class CreatePhotoView(CreateView):
-    template_name = 'lightsite/edit_photo.html'
-    form_class = PhotoForm
-
-    def get_success_url(self):
-        return reverse('userphoto-list')
-
-    def post(self, request, *args, **kwargs):
-        # form = self.form_class(request.POST, request.FILES)
-        form = PhotoForm(request.POST, request.FILES)
-        if form.is_valid():
-            # newdoc = Photo(photo=request.FILES['photo'], name=request.POST["name"])
-            # newdoc.save()
-            form.save()
-            return redirect(self.get_success_url())
-        else:
-            form = PhotoForm()
-        return render(request, self.template_name, {'form': form})
-
-
-class SearchView(TemplateView):
-    template_name = 'lightsite/search.html'
-
-    def get_context_data(self, **kwargs):
-        context = super(SearchView, self).get_context_data(**kwargs)
-        print('search', self.request.POST, self.kwargs)
-        photo_id = self.kwargs.get('pk', None)
-        print('photo_id', photo_id)
-        if photo_id:
-            try:
-                context['photo'] = Photo.objects.get(pk=photo_id).photo
-            except (KeyError, Photo.DoesNotExist):
-                print ('Photo.DoesNotExist')
-        return context
-
-    def find_logo(self, photoPath):
-        return [{'imgPath': get_media_path(result.logoImg)} for result in runner.runAll(photoPath, 2)]
-
-    def get_not_exist_url(self):
-        return reverse('main')
-
-    def post(self, request, *args, **kwargs):
-        print ('POST', request.POST, request.GET)
-        photo_pk = request.POST.get('pk', None)
-        return HttpResponseRedirect(reverse('search-done', args=(photo_pk,)))

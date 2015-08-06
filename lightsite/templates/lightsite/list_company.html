@@ -10,8 +10,16 @@
             {% include "lightsite/company_snippet.html" %}
 
         {% empty %}
-            Вы не сопровождаете ни одну компанию.
+            <div class="row app_row">
+                Вы не сопровождаете ни одну компанию.
+            </div>
         {% endfor %}
+
+        <div class="row app_row">
+            <a class="btn btn-warning" href="{% url 'company-new' %}">
+                <span class="glyphicon glyphicon glyphicon-plus"></span>
+                Добавить компанию</a>
+        </div>
     </div>
 
     <script type="text/javascript" src="{% static "lightsite/js/company_snippet.js" %}"></script>

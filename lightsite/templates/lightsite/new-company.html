@@ -1,0 +1,35 @@
+{% extends "lightsite/base.html" %}
+{% load staticfiles %}
+{% load widget_tweaks %}
+{% block content %}
+
+    <div class="app_login">
+
+        Новая компания. Назовите ее и создайте страницу-представление.
+    </div>
+    <div class="app_content">
+        <form id="saveForm" method="post" action="{% url 'company-new'%}">
+            {% csrf_token %}
+
+            <div class="row app_row">
+                <label class="col-xs-1 control-label">Название</label>
+
+                <div class="col-sm-10" style="width:400px">
+                    {% render_field form.name class="form-control"  %}
+                </div>
+            </div>
+
+            <div class="row app_row">
+                {{ form.media }}
+                {{ form.html|safe }}
+            </div>
+            <div class="row app_row">
+                <button  id="button_save" class="btn btn-success">Сохранить</button>
+                <img id="spinner_load" src="{% static 'lightsite/images/2.GIF' %}"
+                     style="visibility:hidden;  "/>
+            </div>
+        </form>
+    </div>
+
+    <script type="text/javascript" src="{% static "lightsite/js/edit_company.js" %}"></script>
+{% endblock %}

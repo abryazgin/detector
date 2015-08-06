@@ -16,6 +16,13 @@ var logoRemove = function () {
     removeLogo(logo_id)
 }
 
+var companyRemove = function () {
+    var $button_just_clicked_on = $(this);
+    var company_id = $button_just_clicked_on.data('company_id');
+    //console.log('companyRemove', logo_id, $button_just_clicked_on.attributes)
+    removeCompany(company_id)
+}
+
 var activateAllRemoveLogoOnce = function () {
     $('.remove_logo_company').one('click', logoRemove);
 }
@@ -26,6 +33,14 @@ var activateOneRemoveLogoOnce = function (logo_id) {
 
 var activateOneLoadLogoOnce = function (company_id) {
     $('#load_logo_company' + company_id).one('click', logoLoad);
+}
+
+var activateAllRemoveCompanyOnce = function () {
+    $('.remove_company').one('click', companyRemove);
+}
+
+var activateOneRemoveCompanyOnce = function (company_id) {
+    $('#remove_company' + company_id).one('click', companyRemove);
 }
 
 var onChangeFile = function (event) {
@@ -101,7 +116,7 @@ var saveLogo = function (company_id) {
 var removeLogo = function (logo_id) {
      var removeCallback = function(data)  {
         console.log('removeCallback', data)
-        $('#logo_img_div' + logo_id).empty();
+        $('#logo_img_div' + logo_id).remove();
     }
 
     var removeErrback =  function(data)  {
@@ -114,6 +129,28 @@ var removeLogo = function (logo_id) {
         url: 'remove_logo',
         type: 'GET',
         data: {logo_id: logo_id},
+        success: removeCallback,
+        error: removeErrback
+    };
+    $.ajax(config);
+}
+
+var removeCompany = function (company_id) {
+     var removeCallback = function(data)  {
+        console.log('removeCallback', data)
+        $('#company_div' + company_id).remove();
+    }
+
+    var removeErrback =  function(data)  {
+        console.log('removeErrback', data.responseText)
+        bootstrap_alert("Ошибка при удалении");
+        activateOneRemoveLogoOnce(company_id);
+    }
+
+    var config = {
+        url: 'remove_company',
+        type: 'GET',
+        data: {company_id: company_id},
         success: removeCallback,
         error: removeErrback
     };

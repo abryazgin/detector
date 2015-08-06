@@ -5,7 +5,35 @@
 
         Статистика
     </div>
-    <div class="app_content">
+    <p class="app_content">
+
+        {% if object_list %}
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th>Компания</th>
+                    <th>Логотип</th>
+                    <th>Учавствовал в поиске</th>
+                    <th>Был переход</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for obj in object_list %}
+                    <tr>
+                        <th >{{ obj.logo.company.name }}</th>
+                        <td><img src="{{ MEDIA_URL }}{{ obj.logo.photo }}" style="width:50px; height: 50px"/></td>
+                        <td>{{ obj.searchCount }}</td>
+                        <td>{{ obj.redirectCount }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="row app_row">
+                У Ваших компаний нет логотипов
+            </div>
+        {% endif %}
+
 
     </div>
 

@@ -236,7 +236,29 @@ class CompanyView(TemplateView):
         context['ci'] = ci
         return context
 
-class ListStatisticView(LoggedInMixin, TemplateView):
+
+class ListStatisticView(LoggedInMixin, ListView):
     template_name = 'lightsite/list_statistic.html'
+    model = LogoStatistic
+
+    def get_context_data(self, **kwargs):
+        context = super(ListStatisticView, self).get_context_data(**kwargs)
+        context['MEDIA_URL'] = settings.MEDIA_URL
+        return context
 
 
+    def get_queryset(self):
+        result = []
+        my_company = Company.objects.filter(staff__user=self.request.user)
+        print 'my_company', my_company
+
+        my_logo = CompanyLogo.objects.filter(company__in=my_company).order_by('company__name')
+        print 'my_logo', my_logo
+
+        for logo in my_logo:
+            searchCount = LogoStatistic.objects.filter(logo=logo)
+            redirectCount = searchCount.filter(go_to_company=True)
+            result.append({'logo': logo, 'searchCount':searchCount.count(), 'redirectCount':redirectCount.count() })
+
+        print 'result', result
+        return result

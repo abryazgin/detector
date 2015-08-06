@@ -5,7 +5,7 @@ from django.views.generic import FormView
 from django.views.generic import CreateView, UpdateView
 from django.views.generic import ListView, DetailView, TemplateView
 
-from .models import Company, Photo, Staff, CompanyLogo, CompanyInvite
+from .models import Company, Photo, Staff, CompanyLogo, CompanyInvite, LogoStatistic
 from .forms import PhotoForm, CompanyEditForm, CompanyNewForm
 from UploadProgressCachedHandler import UploadProgressCachedHandler
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
@@ -48,11 +48,22 @@ def get_media_path(abspath):
 
 
 def search_logo_from_ajax(request):
-    logo = [{'imgPath': get_media_path(result.logoImg), 'company_pk': result.companyId} for result in
-            runner.runAll(request.FILES['photo'], None, 2)]
-    print ('logo', logo)
+    logo_res = []
+
+    for idx, val in enumerate(runner.runAll(request.FILES['photo'], None, 2), start=1):
+        try:
+            logo = CompanyLogo.objects.get(pk=val.logoId)
+
+            stats = LogoStatistic(logo=logo, position=idx)
+            stats.save()
+
+            logo_res.append({'imgPath': get_media_path(val.logoImg), 'company_pk': val.companyId, 'stat_pk': stats.pk})
+        except Company.DoesNotExist:
+            print 'Не найден логотип с ид ', val.logoId
+
+    print ('logo', logo_res)
     context = {
-        "logo": logo,
+        "logo": logo_res,
     };
 
     return render_to_response("lightsite/finded_logo_snippet.html",
@@ -81,20 +92,20 @@ def save_logo_from_ajax(request):
         return HttpResponseServerError('Не найден параметр company_id')
 
 def remove_logo_from_ajax(request):
-    print request.GET
+
     logo_id = request.GET.get('logo_id', None)
     if logo_id:
         try:
             logo = CompanyLogo.objects.get(pk=logo_id)
             logo.delete()
             return HttpResponse("Логотип успешно удален")
-        except Company.DoesNotExist:
+        except CompanyLogo.DoesNotExist:
             raise HttpResponseServerError('Не найден логотип ' + logo_id)
     else:
         return HttpResponseServerError('Не найден параметр logo_id')
 
 def remove_company_from_ajax(request):
-    print request.GET
+
     company_id = request.GET.get('company_id', None)
     if company_id:
         try:
@@ -105,6 +116,20 @@ def remove_company_from_ajax(request):
             raise HttpResponseServerError('Не найдена компания ' + company_id)
     else:
         return HttpResponseServerError('Не найден параметр company_id')
+
+def save_stat_from_ajax(request):
+
+    stat_id = request.GET.get('stat_id', None)
+    if stat_id:
+        try:
+            stat = LogoStatistic.objects.get(pk=stat_id)
+            stat.go_to_company = True
+            stat.save()
+            return HttpResponse("Статистика успешно обновлена")
+        except LogoStatistic.DoesNotExist:
+            raise HttpResponseServerError('Не найдена статистика ' + stat_id)
+    else:
+        return HttpResponseServerError('Не найден параметр stat_id')
 
 
 def get_prev_photo_from_ajax(request):
@@ -132,7 +157,7 @@ class ListCompanyView(LoggedInMixin, ListView):
         for co in companies:
             co.logos = CompanyLogo.objects.filter(company=co)
             co.invites = CompanyInvite.objects.filter(company=co)
-            print co.invites
+
         return companies
 
 class CompanyEditView(LoggedInMixin, UpdateView):

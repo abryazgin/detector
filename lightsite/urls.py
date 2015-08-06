@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^save_logo$', 'lightsite.views.save_logo_from_ajax', name="save_logo"),
     url(r'^remove_logo$', 'lightsite.views.remove_logo_from_ajax', name="remove_logo"),
     url(r'^remove_company', 'lightsite.views.remove_company_from_ajax', name="remove_company"),
+    url(r'^save_stat', 'lightsite.views.save_stat_from_ajax', name="save_stat"),
     url(r'^company/edit/(?P<pk>\d+)$', views.CompanyEditView.as_view(),
         name='company-edit', ),
     url(r'^company/new$', views.CompanyNewView.as_view(),

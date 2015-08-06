@@ -4,7 +4,7 @@
         <h2>Нашлось:</h2>
         {% for photo in logo %}
             <div>
-                <a href="{% url 'company-view' photo.company_pk %}">
+                <a href="{% url 'company-view' photo.company_pk %}" data-stat_id="{{ photo.stat_pk }}" class="search_logo_link">
                     <img src="{{ photo.imgPath }}" />
                 </a>
             </div>

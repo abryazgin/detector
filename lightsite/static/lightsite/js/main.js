@@ -9,11 +9,21 @@ var activateRestart = function () {
     })
 }
 
+var activateClickSearchLogo = function () {
+    $('.search_logo_link').click(function () {
+        var $button_just_clicked_on = $(this);
+        var stat_id = $button_just_clicked_on.data('stat_id');
+        console.log('qwe', stat_id)
+        save_stat(stat_id);
+    })
+}
+
 var search_logo_callback = function (response) {
     console.log('search_logo_callback')
     $('#spinner_search').css('visibility', 'hidden');
     $('#finded_logo').html(response)
     activateLoadFileOnce();
+    activateClickSearchLogo();
 }
 
 var search_logo_errback = function (response) {
@@ -54,6 +64,22 @@ var manage_file = function (event) {
     //$('#current_photo').attr('src', "")
     check_image(check_image_callback, check_image_errback)
 }
+
+var save_stat = function(stat_id)  {
+
+    var callback = function(data)  {
+        console.log('save_stat', data)
+    }
+
+    var config = {
+        url: 'save_stat',
+        type: 'GET',
+        data: {stat_id: stat_id},
+        success: callback,
+        error: callback
+    };
+    $.ajax(config)
+};
 
 $(document).ready(function () {
     downloadPrevPhoto();

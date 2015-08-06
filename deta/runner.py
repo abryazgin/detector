@@ -63,7 +63,7 @@ def runAll (img, imgPath, N):
     result = [Result(logo['logoId'],
                    logo['companyId'],
                    logo['photoPath']) for logo in bestLogoObjects]
-    addLogoStatisticToDB(result)
+
     return result
             
 

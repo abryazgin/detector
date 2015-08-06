@@ -57,7 +57,9 @@ def runAll (img, imgPath, N):
                     bestLogoObjectByCompany = logoObject
             else:
                 bestLogoObjectByCompany = logoObject
-    addResult(bestLogoObjects, bestLogoObjectByCompany, N)
+
+    if bestLogoObjectByCompany:
+        addResult(bestLogoObjects, bestLogoObjectByCompany, N)
     result = [Result(logo['logoId'],
                    logo['companyId'],
                    logo['photoPath']) for logo in bestLogoObjects]

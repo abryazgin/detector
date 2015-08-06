@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'lightsite',
     'django_summernote',
     'widget_tweaks',
+    # 'registration',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -92,7 +93,9 @@ DATABASES = {}
 
 # Parse database configuration from $DATABASE_URL
 import dj_database_url
-DATABASES['default'] = dj_database_url.config(default='postgres://postgres:1@localhost:5432/deta')
+
+DEFAULT_DATABASE_URL = os.environ.get('DATABASE_URL','postgres://postgres:1@localhost:5432/deta')
+DATABASES['default'] = dj_database_url.config(default=DEFAULT_DATABASE_URL)
 DATABASES['default']['ENGINE'] = 'django_postgrespool'
 
 # Internationalization
@@ -147,6 +150,10 @@ SUMMERNOTE_CONFIG = {  # Or, set editor language/locale forcely
 
                        }
 
+AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+
 print ('STATIC_ROOT', STATIC_ROOT)
 print ('STATICFILES_DIRS', STATICFILES_DIRS)
 print ('MEDIA_ROOT', MEDIA_ROOT)
+print ('DEFAULT_DATABASE_URL', DEFAULT_DATABASE_URL)

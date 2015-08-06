@@ -250,7 +250,7 @@ class ListStatisticView(LoggedInMixin, ListView):
     def get_queryset(self):
         result = []
         my_company = Company.objects.filter(staff__user=self.request.user)
-        print 'my_company', my_company
+        # print 'my_company', my_company
 
         for company in my_company:
             company_res = {'company': company, 'logos': []}
@@ -260,5 +260,5 @@ class ListStatisticView(LoggedInMixin, ListView):
                 company_res['logos'].append({'logo': logo, 'searchCount':searchCount.count(), 'redirectCount':redirectCount.count() })
             result.append(company_res)
 
-        print 'result', result
+        # print 'result', result
         return result

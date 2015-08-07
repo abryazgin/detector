@@ -1,8 +1,11 @@
 var logoLoad = function () {
+    console.log('QQQQ')
     var $button_just_clicked_on = $(this);
     var company_id = $button_just_clicked_on.data('company_id');
     //console.log('logoLoad', company_id, $button_just_clicked_on)
+    activateOneLoadLogoOnce(company_id)
     $('#file_id' + company_id).click()
+
 }
 
 var activateAllLoadLogoOnce = function () {
@@ -32,7 +35,13 @@ var activateOneRemoveLogoOnce = function (logo_id) {
 }
 
 var activateOneLoadLogoOnce = function (company_id) {
+    //console.log('activate')
     $('#load_logo_company' + company_id).one('click', logoLoad);
+}
+
+var deactivateOneLoadLogoOnce = function (company_id) {
+    //console.log('deactivate')
+    $('#load_logo_company' + company_id).off("click");
 }
 
 var activateAllRemoveCompanyOnce = function () {
@@ -48,11 +57,13 @@ var onChangeFile = function (event) {
     var company_id = $input_just_changed_on.data('company_id');
     $('#spinner_load' + company_id).css('visibility', 'visible');
 
+    deactivateOneLoadLogoOnce(company_id)
     saveLogo(company_id)
 }
 
 var setActionOnAllChooseLogo = function () {
     $('.file_logo').on('change', function (e) {
+        //console.log('CHANGE')
         onChangeFile(e)
     });
 }
@@ -87,9 +98,15 @@ var form_ajax = function (data, action, dataType, callback, errback) {
 var saveLogo = function (company_id) {
     var form_id = '#loadLogoForm' + company_id;
     var data = new FormData($(form_id).get(0));
+    //console.log(data)
+    //console.log($(form_id).get(0))
+
 
     var callback = function (response) {
         console.log('callback', company_id)
+        //console.log($(form_id))
+        //$(form_id)[0].reset();
+
         $('#spinner_load' + company_id).css('visibility', 'hidden');
         $('#logos_' + company_id).append(response)
         var a_tag = $(response).children('a');
@@ -101,11 +118,12 @@ var saveLogo = function (company_id) {
 
     var errback = function (response) {
         console.log('error', company_id, response.responseText)
+        $(form_id).val('');
         $('#spinner_load' + company_id).css('visibility', 'hidden');
         activateOneLoadLogoOnce(company_id);
         bootstrap_alert("Ошибка при загрузке")
     }
-
+    $(form_id).off("submit")
     $(form_id).submit(function (e) {
         e.preventDefault();
         form_ajax(data, 'save_logo', 'html', callback, errback);

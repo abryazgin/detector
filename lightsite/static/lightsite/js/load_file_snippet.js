@@ -27,6 +27,7 @@ var form_ajax = function (action, dataType, callback, errback) {
 }
 
 var search_logo = function (callback, errback) {
+    $('#loadFileForm').off("submit")
     $('#loadFileForm').submit(function (e) {
         e.preventDefault();
         form_ajax('search_logo', 'html',  callback, errback);
@@ -41,6 +42,7 @@ var check_image = function (callback, errback) {
 var set_action_on_choose_file = function (calback) {
     $('#file_id').on('change', function (e) {
         console.log('CHANGE');
+        deactivateLoadFileOnce();
         if (calback) {
             calback(e)
         }
@@ -48,6 +50,7 @@ var set_action_on_choose_file = function (calback) {
 }
 
 var choose_file = function () {
+    activateLoadFileOnce()
     $('#file_id').click()
 }
 

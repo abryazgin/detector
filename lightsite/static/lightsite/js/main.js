@@ -2,6 +2,11 @@ var activateLoadFileOnce = function () {
     $('#start_load').one('click', choose_file);
 }
 
+var deactivateLoadFileOnce = function () {
+    $('#start_load').off("click");
+}
+
+
 var activateRestart = function () {
     $('#restart_load').click(function () {
         $('#load_section').css('display', 'block');

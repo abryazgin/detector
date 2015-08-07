@@ -76,7 +76,7 @@ def save_logo_from_ajax(request):
     if company_id:
         try:
             company = Company.objects.get(pk=company_id)
-
+            # print request.FILES['photo']
             newLogo = CompanyLogo(company=company, photo=request.FILES['photo'], creator=request.user)
             newLogo.save()
             context = {

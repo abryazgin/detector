@@ -12,29 +12,49 @@
         <form method="post" action=".">
             {% csrf_token %}
 
-            {% if form.errors %}
-                <div class="row app_row">
-                    <div class="col-sm-10">
-                        <p class="alert alert-danger">Что-то не сходится, попробуйте еще раз ввести.</p>
-                    </div>
+
+
+            {% if form.non_field_errors %}
+                <div class="row app_row has-error">
+                    {% for error in form.non_field_errors %}
+                        <label class="control-label">{{ error|escape }}</label>
+                    {% endfor %}
+
                 </div>
 
             {% endif %}
 
-
             <div class="row app_row">
                 <label class="col-xs-1 control-label">Логин</label>
 
-                <div class="col-sm-10" style="width:400px">
+                <div class="col-sm-5" style="width:400px">
                     {% render_field form.username class="form-control" placeholder="Логин" %}
                 </div>
+
+                {% if form.username.errors %}
+                    <div class="col-sm-4 has-error">
+                        {% for error in form.username.errors %}
+                            <label class="control-label">{{ error|escape }}</label>
+                        {% endfor %}
+                    </div>
+
+                {% endif %}
             </div>
             <div class="row app_row">
                 <label class="col-sm-1 control-label">Пароль</label>
 
-                <div class="col-sm-10" style="width:400px">
+                <div class="col-sm-5" style="width:400px">
                     {% render_field form.password class="form-control" type="password" placeholder="Пароль" %}
                 </div>
+
+                {% if form.password.errors %}
+                    <div class="col-sm-4 has-error">
+                        {% for error in form.password.errors %}
+                            <label class="control-label">{{ error|escape }}</label>
+                        {% endfor %}
+                    </div>
+
+                {% endif %}
             </div>
             <div class="row app_row">
                 <div class="col-sm-offset-1 col-sm-10">

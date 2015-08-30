@@ -73,10 +73,14 @@ def search_logo_from_ajax(request):
 def save_logo_from_ajax(request):
 
     company_id = request.POST.get('company_id', None)
+    if not request.FILES or not request.FILES['photo']:
+        return HttpResponseServerError('Ничего не загружено')
     if company_id:
         try:
             company = Company.objects.get(pk=company_id)
             # print request.FILES['photo']
+            if CompanyLogo.objects.filter(company=company).count()>2:
+                return HttpResponseServerError('Не добавляйте больше 3х логотипов')
             newLogo = CompanyLogo(company=company, photo=request.FILES['photo'], creator=request.user)
             newLogo.save()
             context = {
@@ -87,7 +91,7 @@ def save_logo_from_ajax(request):
             return render_to_response("lightsite/logo_img_snippet.html",
                                       context)
         except Company.DoesNotExist:
-            raise HttpResponseServerError('Не найдена компания ' + company_id)
+            return HttpResponseServerError('Не найдена компания ' + company_id)
     else:
         return HttpResponseServerError('Не найден параметр company_id')
 

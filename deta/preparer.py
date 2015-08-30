@@ -16,10 +16,10 @@ def prepare(imgPath, detector, w, h):
     img = utils.read(imgPath)
     print img
     if img == None:
-        raise Exception("Can't open file '%s'" % imgPath)
+        raise Exception(u"Can't open file '%s'" % imgPath)
     img = utils.resize(img, w, h)
     
-    print 'PREPARE %s' % imgPath
+    print u'PREPARE %s' % imgPath
     
     if not detector:
         raise Exception("Detector can't be None")

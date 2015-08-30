@@ -121,7 +121,7 @@ var saveLogo = function (company_id) {
         $(form_id).val('');
         $('#spinner_load' + company_id).css('visibility', 'hidden');
         activateOneLoadLogoOnce(company_id);
-        bootstrap_alert("Ошибка при загрузке")
+        bootstrap_alert("Ошибка при загрузке. " + response.responseText)
     }
     $(form_id).off("submit")
     $(form_id).submit(function (e) {

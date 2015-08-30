@@ -5,6 +5,9 @@ from deta.searcher import init
 from deta.configManager import Config
 from deta.serializer import serialize
 from django.conf import settings
+from PIL import Image
+from cv2 import resize
+from deta.utils import read
 
 import uuid
 import os
@@ -23,6 +26,15 @@ class Photo(models.Model):
         return ' '.join([
             self.photo.name,
         ])
+
+    def save(self, *args, **kwargs):
+        super(Photo, self).save(*args, **kwargs)
+
+        image = Image.open(self.photo)
+        w = int(Config.get('THUMBS', 'w'))
+        h = int(Config.get('THUMBS', 'h'))
+        image = image.resize((w, h), Image.ANTIALIAS)
+        image.save(self.photo.path)
 
 
 class Company(models.Model):

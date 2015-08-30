@@ -152,8 +152,11 @@ SUMMERNOTE_CONFIG = {  # Or, set editor language/locale forcely
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
+
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = 587
 
 # http://www.tangowithdjango.com/book17/chapters/login_redux.html
 REGISTRATION_OPEN = True                # If True, users can register
@@ -168,3 +171,4 @@ print ('MEDIA_ROOT', MEDIA_ROOT)
 print ('DEFAULT_DATABASE_URL', DEFAULT_DATABASE_URL)
 print ('EMAIL_HOST_USER', EMAIL_HOST_USER)
 print ('EMAIL_HOST_PASSWORD', EMAIL_HOST_PASSWORD)
+

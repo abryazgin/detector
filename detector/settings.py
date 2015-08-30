@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 SECRET_KEY = 'c+s+l+zqffw42%rhl23#h(_h1e!-p!=&7yiwdz_om9#ip5o2h)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', True)
+DEBUG = False if os.environ.get('DEBUG', "True") == 'False' else True
 
 ALLOWED_HOSTS = ['*']
 
@@ -85,6 +85,37 @@ TEMPLATE_LOADERS = (
 
 WSGI_APPLICATION = 'detector.wsgi.application'
 
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'console':{
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'propagate': True,
+            'level': 'INFO',
+        },
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+    }
+}
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
@@ -171,4 +202,5 @@ print ('MEDIA_ROOT', MEDIA_ROOT)
 print ('DEFAULT_DATABASE_URL', DEFAULT_DATABASE_URL)
 print ('EMAIL_HOST_USER', EMAIL_HOST_USER)
 print ('EMAIL_HOST_PASSWORD', EMAIL_HOST_PASSWORD)
+print ('DEBUG', DEBUG)
 

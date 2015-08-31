@@ -1,13 +1,16 @@
 var activateLoadFileOnce = function () {
+    console.log('activateLoadFileOnce')
     $('#start_load').one('click', choose_file);
 }
 
 var deactivateLoadFileOnce = function () {
+    console.log('deactivateLoadFileOnce')
     $('#start_load').off("click");
 }
 
 
 var activateRestart = function () {
+    console.log('activateRestart')
     $('#restart_load').click(function () {
         $('#load_section').css('display', 'block');
         $('#result_section').css('display', 'none');
@@ -15,6 +18,7 @@ var activateRestart = function () {
 }
 
 var activateClickSearchLogo = function () {
+    console.log('activateClickSearchLogo')
     $('.search_logo_link').click(function () {
         var $button_just_clicked_on = $(this);
         var stat_id = $button_just_clicked_on.data('stat_id');
@@ -32,13 +36,14 @@ var search_logo_callback = function (response) {
 }
 
 var search_logo_errback = function (response) {
-    console.log('error', response.responseText)
+    console.log('search_logo_errback error', response.responseText)
     $('#spinner_search').css('visibility', 'hidden');
     activateLoadFileOnce();
     bootstrap_alert("Ошибка при загрузке")
 }
 
 var check_image_callback = function (response) {
+    console.log('check_image_callback')
     $('#spinner_load').css('visibility', 'hidden');
     if (response['result'] == 'success') {
         console.log('SUCCESS', response)
@@ -58,7 +63,7 @@ var check_image_callback = function (response) {
 }
 
 var check_image_errback = function (response) {
-    console.log('error', response.responseText)
+    console.log('check_image_errback error', response.responseText)
     $('#spinner_load').css('visibility', 'hidden');
     activateLoadFileOnce();
     bootstrap_alert("Ошибка при загрузке")

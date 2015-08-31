@@ -30,7 +30,7 @@ var search_logo = function (callback, errback) {
     $('#loadFileForm').off("submit")
     $('#loadFileForm').submit(function (e) {
         e.preventDefault();
-        form_ajax('search_logo', 'html',  callback, errback);
+        form_ajax('search_logo', 'html', callback, errback);
     })
     $('#loadFileForm').submit();
 }
@@ -40,8 +40,13 @@ var check_image = function (callback, errback) {
 }
 
 var set_action_on_choose_file = function (calback) {
+    console.log('set_action_on_choose_file')
     $('#file_id').on('change', function (e) {
         console.log('CHANGE');
+        if ($('#file_id').val() == '') {
+            console.log('EMPTY file')
+            return
+        }
         deactivateLoadFileOnce();
         if (calback) {
             calback(e)
@@ -50,8 +55,11 @@ var set_action_on_choose_file = function (calback) {
 }
 
 var choose_file = function () {
-    activateLoadFileOnce()
+    console.log('choose_file')
     $('#file_id').click()
+    setTimeout(function () {
+        activateLoadFileOnce()
+    }, 1000)
 }
 
 

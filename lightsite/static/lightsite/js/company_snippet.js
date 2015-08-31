@@ -1,18 +1,22 @@
 var logoLoad = function () {
-    console.log('QQQQ')
+    console.log('logoLoad')
     var $button_just_clicked_on = $(this);
     var company_id = $button_just_clicked_on.data('company_id');
     //console.log('logoLoad', company_id, $button_just_clicked_on)
-    activateOneLoadLogoOnce(company_id)
     $('#file_id' + company_id).click()
+    setTimeout(function() {
+        activateOneLoadLogoOnce(company_id)
+    }, 1000)
 
 }
 
 var activateAllLoadLogoOnce = function () {
+    console.log('activateAllLoadLogoOnce')
     $('.load_logo_company').one('click', logoLoad);
 }
 
 var logoRemove = function () {
+    console.log('logoRemove')
     var $button_just_clicked_on = $(this);
     var logo_id = $button_just_clicked_on.data('logo_id');
     //console.log('logoRemove', logo_id, $button_just_clicked_on.attributes)
@@ -20,6 +24,7 @@ var logoRemove = function () {
 }
 
 var companyRemove = function () {
+    console.log('companyRemove')
     var $button_just_clicked_on = $(this);
     var company_id = $button_just_clicked_on.data('company_id');
     //console.log('companyRemove', logo_id, $button_just_clicked_on.attributes)
@@ -27,34 +32,43 @@ var companyRemove = function () {
 }
 
 var activateAllRemoveLogoOnce = function () {
+    console.log('activateAllRemoveLogoOnce')
     $('.remove_logo_company').one('click', logoRemove);
 }
 
 var activateOneRemoveLogoOnce = function (logo_id) {
+    console.log('activateOneRemoveLogoOnce')
     $('#remove_logo_company' + logo_id).one('click', logoRemove);
 }
 
 var activateOneLoadLogoOnce = function (company_id) {
-    //console.log('activate')
+    console.log('activateOneLoadLogoOnce')
     $('#load_logo_company' + company_id).one('click', logoLoad);
 }
 
 var deactivateOneLoadLogoOnce = function (company_id) {
-    //console.log('deactivate')
+    console.log('deactivateOneLoadLogoOnce')
     $('#load_logo_company' + company_id).off("click");
 }
 
 var activateAllRemoveCompanyOnce = function () {
+    console.log('activateAllRemoveCompanyOnce')
     $('.remove_company').one('click', companyRemove);
 }
 
 var activateOneRemoveCompanyOnce = function (company_id) {
+    console.log('activateOneRemoveCompanyOnce')
     $('#remove_company' + company_id).one('click', companyRemove);
 }
 
 var onChangeFile = function (event) {
+    console.log('onChangeFile')
     var $input_just_changed_on = $(event.currentTarget);
     var company_id = $input_just_changed_on.data('company_id');
+    if ($('#file_id'+company_id).val()==''){
+        console.log('EMPTY file')
+        return
+    }
     $('#spinner_load' + company_id).css('visibility', 'visible');
 
     deactivateOneLoadLogoOnce(company_id)
@@ -62,6 +76,7 @@ var onChangeFile = function (event) {
 }
 
 var setActionOnAllChooseLogo = function () {
+    console.log('setActionOnAllChooseLogo')
     $('.file_logo').on('change', function (e) {
         //console.log('CHANGE')
         onChangeFile(e)
@@ -96,9 +111,10 @@ var form_ajax = function (data, action, dataType, callback, errback) {
 }
 
 var saveLogo = function (company_id) {
+    console.log('saveLogo')
     var form_id = '#loadLogoForm' + company_id;
     var data = new FormData($(form_id).get(0));
-    //console.log(data)
+    console.log('data', $('#file_id'+company_id).val())
     //console.log($(form_id).get(0))
 
 
@@ -132,6 +148,7 @@ var saveLogo = function (company_id) {
 }
 
 var removeLogo = function (logo_id) {
+    console.log('removeLogo')
      var removeCallback = function(data)  {
         console.log('removeCallback', data)
         $('#logo_img_div' + logo_id).remove();
@@ -154,6 +171,7 @@ var removeLogo = function (logo_id) {
 }
 
 var removeCompany = function (company_id) {
+    console.log('removeCompany')
      var removeCallback = function(data)  {
         console.log('removeCallback', data)
         $('#company_div' + company_id).remove();

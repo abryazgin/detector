@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load app_filters %}
 <html>
 <head>
     <link href="{% static 'bootstrap-3.3.5-dist/css/bootstrap.min.css' %}"
@@ -24,6 +25,11 @@
                     <li>
                         <a href="{% url "statistic-list" %}">Статистика</a>
                     </li>
+                    {% if user|has_group:"admin" %}
+                        <li>
+                            <a href="{% url "admin-statistic-list" %}">Полная статистика</a>
+                        </li>
+                    {% endif %}
                 {% endif %}
             </ul>
             <ul class="nav navbar-nav navbar-right">

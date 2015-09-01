@@ -15,7 +15,7 @@ from django.template import RequestContext
 import json, urllib, os
 from deta import runner
 from django.conf import settings
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.decorators import method_decorator
 
 class LoggedInMixin(object):
@@ -23,6 +23,11 @@ class LoggedInMixin(object):
     def dispatch(self, *args, **kwargs):
         return super(LoggedInMixin, self).dispatch(*args, **kwargs)
 
+class IsAdminMixin(object):
+    # @method_decorator(user_passes_test(lambda u: u.is_superuser))
+    @method_decorator(user_passes_test(lambda u: u.groups.filter(name='admin').count() == 1, login_url='/denied/'))
+    def dispatch(self, *args, **kwargs):
+        return super(IsAdminMixin, self).dispatch(*args, **kwargs)
 
 class MainView(TemplateView):
     template_name = 'lightsite/main.html'
@@ -266,3 +271,32 @@ class ListStatisticView(LoggedInMixin, ListView):
 
         # print 'result', result
         return result
+
+class ListAdminStatisticView(IsAdminMixin, ListView):
+    template_name = 'lightsite/list_admin_statistic.html'
+    model = LogoStatistic
+
+    def get_context_data(self, **kwargs):
+        context = super(ListAdminStatisticView, self).get_context_data(**kwargs)
+        context['MEDIA_URL'] = settings.MEDIA_URL
+        return context
+
+
+    def get_queryset(self):
+        result = []
+        my_company = Company.objects.filter(staff__user=self.request.user)
+        # print 'my_company', my_company
+
+        for company in my_company:
+            company_res = {'company': company, 'logos': []}
+            for logo in CompanyLogo.objects.filter(company=company):
+                searchCount = LogoStatistic.objects.filter(logo=logo)
+                redirectCount = searchCount.filter(go_to_company=True)
+                company_res['logos'].append({'logo': logo, 'searchCount':searchCount.count(), 'redirectCount':redirectCount.count() })
+            result.append(company_res)
+
+        # print 'result', result
+        return result
+
+class DeniedView(TemplateView):
+    template_name = 'lightsite/denied.html'

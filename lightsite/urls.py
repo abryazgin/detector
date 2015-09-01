@@ -35,6 +35,10 @@ urlpatterns = [
         name='company-list', ),
     url(r'^statistic', views.ListStatisticView.as_view(),
         name='statistic-list', ),
+    url(r'^admin/statistic', views.ListAdminStatisticView.as_view(),
+        name='admin-statistic-list', ),
+    url(r'^denied', views.DeniedView.as_view(),
+        name='denied', ),
 
     # url(r'^new$', views.CreatePhotoView.as_view(),
     #     name='userphoto-new', ),

@@ -2,18 +2,18 @@
 
 {% block content %}
     <div class="app_login">
-
-        Статистика
+        Общая статистика
     </div>
     <div class="app_content">
-
-        {% for obj in object_list %}
+    {% for obj in object_list %}
+        <h2>{{ obj.user.username }}</h2>
+        {% for company_obj in obj.companies %}
             <div class="panel panel-success">
                 <div class="panel-heading">
-                    {{ obj.company.name  }}
+                    {{ company_obj.company.name  }}
                 </div>
                 <div class="panel-body">
-                    {% if obj.logos %}
+                    {% if company_obj.logos %}
                         <table class="table table-bordered">
                             <thead>
                             <tr>
@@ -23,7 +23,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            {% for obg_logo in obj.logos %}
+                            {% for obg_logo in company_obj.logos %}
                                 <tr >
                                     <td><img src="{{ MEDIA_URL }}{{ obg_logo.logo.photo }}"
                                              style="width:50px; height: 50px"/></td>
@@ -42,10 +42,14 @@
             </div>
         {% empty %}
             <div class="row app_row">
-                У Вас нет компаний.
+                У пользователя нет компаний.
             </div>
         {% endfor %}
-
+    {% empty %}
+        <div class="row app_row">
+            Нет пользователей.
+        </div>
+    {% endfor %}
 
     </div>
 

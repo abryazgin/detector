@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from django.views.generic import FormView
 from django.views.generic import CreateView, UpdateView
 from django.views.generic import ListView, DetailView, TemplateView
-
+from django.contrib.auth.models import User
 from .models import Company, Photo, Staff, CompanyLogo, CompanyInvite, LogoStatistic
 from .forms import PhotoForm, CompanyEditForm, CompanyNewForm
 from UploadProgressCachedHandler import UploadProgressCachedHandler
@@ -284,18 +284,19 @@ class ListAdminStatisticView(IsAdminMixin, ListView):
 
     def get_queryset(self):
         result = []
-        my_company = Company.objects.filter(staff__user=self.request.user)
-        # print 'my_company', my_company
 
-        for company in my_company:
-            company_res = {'company': company, 'logos': []}
-            for logo in CompanyLogo.objects.filter(company=company):
-                searchCount = LogoStatistic.objects.filter(logo=logo)
-                redirectCount = searchCount.filter(go_to_company=True)
-                company_res['logos'].append({'logo': logo, 'searchCount':searchCount.count(), 'redirectCount':redirectCount.count() })
-            result.append(company_res)
+        for user in User.objects.all():
+            user_res = {'user': user, 'companies': []}
+            for company in Company.objects.filter(staff__user=user):
+                company_res ={'company': company, 'logos': []}
+                for logo in CompanyLogo.objects.filter(company=company):
+                    searchCount = LogoStatistic.objects.filter(logo=logo)
+                    redirectCount = searchCount.filter(go_to_company=True)
+                    company_res['logos'].append({'logo': logo, 'searchCount':searchCount.count(), 'redirectCount':redirectCount.count() })
+                user_res['companies'].append(company_res)
+            result.append(user_res)
 
-        # print 'result', result
+        print 'result', result
         return result
 
 class DeniedView(TemplateView):

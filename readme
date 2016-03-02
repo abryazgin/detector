@@ -39,4 +39,8 @@ python ./manage.py runserver
 
 gunicorn detector.wsgi
 
+FIX ERRORS
 
+sudo supervisord -c /etc/supervisor/supervisord.conf
+sudo supervisorctl -c /etc/supervisor/supervisord.conf
+(если проблемы с файлом .sock - sudo unlink /var/run/supervisor.sock)
